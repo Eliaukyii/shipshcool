@@ -1,0 +1,144 @@
+{
+    "Code": "00",
+    "Msg": "success",
+    "List": [
+        {
+            "Menu_ID": "0d10562c-2eee-4d98-be05-3098a823c908",
+            "Menu_Name": "支出报销",
+            "Menu_Icon": "feedback2",
+            "Menu_Url": "",
+            "child": [
+                {
+                    "Menu_ID": "5ed20159-d1ad-4bbe-92f3-e574d9d6be88",
+                    "Menu_Name": "报销申报",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_approvlsheet/FR_approvlsheet_List.aspx",
+                    "child": null
+                },
+                {
+                    "Menu_ID": "50b0de20-44de-441e-8c48-f641943f374f",
+                    "Menu_Name": "报销审批",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_approvlsheet/FR_approvlsheet_List.aspx?name=SP",
+                    "child": null
+                },
+                {
+                    "Menu_ID": "5dbc8852-ec70-4919-b164-012429d06cf0",
+                    "Menu_Name": "报销支付",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_approvlsheet/FR_approvlsheet_List.aspx?name=ZF",
+                    "child": null
+                }
+            ]
+        },
+        {
+            "Menu_ID": "9e65976f-5ea7-4c18-8ba2-d723d0f47c28",
+            "Menu_Name": "往来付款",
+            "Menu_Icon": "feedback2",
+            "Menu_Url": "",
+            "child": [
+                {
+                    "Menu_ID": "184727cc-1b9f-4788-a452-bc16987e10ad",
+                    "Menu_Name": "付款申报",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_CurrentPayment/FR_CurrentPayment_List.aspx",
+                    "child": null
+                },
+                {
+                    "Menu_ID": "8cca0fea-84fc-4427-ac34-ba47154d5c80",
+                    "Menu_Name": "付款审批",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_CurrentPayment/FR_CurrentPayment_List.aspx?name=SP",
+                    "child": null
+                },
+                {
+                    "Menu_ID": "e641e98f-ad28-4d68-91ab-7da08ae92daf",
+                    "Menu_Name": "往来支付",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_CurrentPayment/FR_CurrentPayment_List.aspx?name=ZF",
+                    "child": null
+                }
+            ]
+        },
+        {
+            "Menu_ID": "d2048022-29ee-4954-b754-51f3c528d19f",
+            "Menu_Name": "个人借支",
+            "Menu_Icon": "share",
+            "Menu_Url": "",
+            "child": [
+                {
+                    "Menu_ID": "c3add1a8-7dc7-4a85-a693-8b557907490d",
+                    "Menu_Name": "借支申报",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_Anysingle/FR_Anysingle_List.aspx",
+                    "child": null
+                },
+                {
+                    "Menu_ID": "7865a81a-abaf-4340-9f0a-76fa85f00961",
+                    "Menu_Name": "借支审批",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_Anysingle/FR_Anysingle_List.aspx?name=SP",
+                    "child": null
+                },
+                {
+                    "Menu_ID": "43cfeccb-207b-4cee-8cc2-aebbefe63745",
+                    "Menu_Name": "借支支付",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_Anysingle/FR_Anysingle_List.aspx?name=ZF",
+                    "child": null
+                }
+            ]
+        },
+        {
+            "Menu_ID": "CustomAnysingle",
+            "Menu_Name": "借款管理",
+            "Menu_Icon": "renwu",
+            "Menu_Url": "",
+            "child": [
+                {
+                    "Menu_ID": "CustomAnysingle_List",
+                    "Menu_Name": "借款申请",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_Anysingle/CustomAnysingle_List.aspx",
+                    "child": null
+                },
+                {
+                    "Menu_ID": "CustomAnysingle_SP",
+                    "Menu_Name": "借款审批",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_Anysingle/CustomAnysingle_List.aspx?name=SP",
+                    "child": null
+                }
+            ]
+        },
+        {
+            "Menu_ID": "CustomApprovlsheet",
+            "Menu_Name": "日常报销",
+            "Menu_Icon": "renwu",
+            "Menu_Url": "",
+            "child": [
+                {
+                    "Menu_ID": "CustomApprovlsheet_List",
+                    "Menu_Name": "报销申请",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_approvlsheet/CustomeApprovlsheet_List.aspx",
+                    "child": null
+                },
+                {
+                    "Menu_ID": "CustomApprovlsheet_SP",
+                    "Menu_Name": "报销审批",
+                    "Menu_Icon": "",
+                    "Menu_Url": "/Office/FR_approvlsheet/CustomeApprovlsheet_List.aspx?name=SP",
+                    "child": null
+                }
+            ]
+        },
+        {
+            "Menu_ID": "CarryOverListFrozen0110",
+            "Menu_Name": "在途数据管理",
+            "Menu_Icon": "system",
+            "Menu_Url": "/Office/CarryOver/CarryOverListFrozen.aspx",
+            "child": null
+        }
+    ]
+}
