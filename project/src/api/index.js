@@ -63,3 +63,13 @@ export function info(data){
         data
     })
 }
+
+
+//首页列表接口
+export function WelComeFunc(data){
+    return service({
+        method:'post',
+        url:'/Index/WelComeFunc',
+        data
+    })
+}

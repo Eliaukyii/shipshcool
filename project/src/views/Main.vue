@@ -4,7 +4,7 @@
       <div class="box">
         <div
           class="box1"
-          v-for="(item,index) in imgLists"
+          v-for="(item, index) in imgLists"
           :key="index"
           :style="{ 'background-image': 'url(' + item.img + ')' }"
         >
@@ -39,24 +39,26 @@
             ><span class="right">查看全部</span>
           </div>
           <el-card>
-            <el-table
-              :data="tableData"
-              style="width: 100%"
-            >
+            <el-table :data="tableData" style="width: 100%">
               <el-table-column
                 :label="item.label"
-                v-for="(item,index) in tableHeader"
+                v-for="(item, index) in tableHeader"
                 :key="index"
                 :prop="item.value"
                 :show-overflow-tooltip="true"
                 align="center"
               >
               </el-table-column>
-                <el-table-column fixed="right" label="操作" width="80" align="center">
-            <template>
-              <el-button type="text" size="small">审核</el-button>
-            </template>
-          </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作"
+                width="80"
+                align="center"
+              >
+                <template>
+                  <el-button type="text" size="small">审核</el-button>
+                </template>
+              </el-table-column>
             </el-table>
           </el-card>
         </el-col>
@@ -67,11 +69,7 @@
             <span class="right">查看全部</span>
           </div>
           <el-card style="margin-bottom: 52px">
-            <el-table
-              :data="titleLists"
-              style="width: 100%"
-              :show-header="false"
-            >
+            <el-table :data="list" style="width: 100%" :show-header="false">
               <el-table-column prop="title" width="92">
                 <template slot-scope="scope">
                   <span
@@ -86,8 +84,9 @@
                   >
                 </template>
               </el-table-column>
-              <el-table-column prop="content"> </el-table-column>
-              <el-table-column prop="date" align="right"> </el-table-column>
+              <el-table-column prop="Titles"> </el-table-column>
+              <el-table-column prop="CreateDate" align="right">
+              </el-table-column>
             </el-table>
           </el-card>
           <!-- 消息通知 -->
@@ -96,13 +95,12 @@
             <span class="right">查看全部</span>
           </div>
           <el-card>
-            <el-table
-              :data="messageLists"
-              style="width: 100%"
-              :show-header="false"
-            >
-              <el-table-column prop="info"></el-table-column>
-              <el-table-column prop="date" align="right"></el-table-column>
+            <el-table :data="list" style="width: 100%" :show-header="false">
+              <el-table-column prop="Titles"></el-table-column>
+              <el-table-column
+                prop="CreateDate"
+                align="right"
+              ></el-table-column>
             </el-table>
           </el-card>
         </el-col>
@@ -112,8 +110,10 @@
 </template>
 
 <script>
+import { WelComeFunc } from "@/api/index.js";
 export default {
   data() {
+    let a = sessionStorage.getItem("Token");
     return {
       menuLists: [
         {
@@ -215,63 +215,8 @@ export default {
           operate: "审核",
         },
       ],
-      titleLists: [
-        {
-          title: "美的集团",
-          content: "标题标题标题",
-          date: "9-26",
-        },
-        {
-          title: "贵州茅台",
-          content: "标题标题标题标题标题",
-          date: "9-26",
-        },
-        {
-          title: "贵州茅台",
-          content: "标题标题标题标题标题",
-          date: "9-26",
-        },
-        {
-          title: "贵州茅台",
-          content: "标题标题标题标题标题",
-          date: "9-26",
-        },
-        {
-          title: "贵州茅台",
-          content: "标题标题标题标题标题",
-          date: "9-26",
-        },
-      ],
-      messageLists: [
-        {
-          info: "产品行情同步失败产品行情同步失败",
-          date: "9-26",
-        },
-        {
-          info: "日出清算处理成功日出清算处理成功",
-          date: "9-26",
-        },
-        {
-          info: "日出清算处理成功日出清算处理",
-          date: "9-26",
-        },
-        {
-          info: "产品行情同步成功日出清算处理成功",
-          date: "9-26",
-        },
-        {
-          info: "日出清算处理成功日出清算处",
-          date: "9-26",
-        },
-        {
-          info: "日出清算处理成功日出清算处",
-          date: "9-26",
-        },
-        {
-          info: "日出清算处理成功日出清算处",
-          date: "9-26",
-        },
-      ],
+
+      list: [],
       imgLists: [
         {
           text: "日常报销",
@@ -338,11 +283,45 @@ export default {
         {
           label: "摘要",
           value: "desc",
-        }
+        },
       ],
+      Appid: "312502",
+      Token: a,
+      active: "",
+      Titles: "",
     };
   },
-  methods: {},
+  created() {
+    this.getInfo({
+      Appid: this.Appid,
+      Token: this.Token,
+      active: "List2",
+    }),
+      this.getPolicy({
+        Appid: this.Appid,
+        Token: this.Token,
+        active: "List3",
+      });
+  },
+  methods: {
+    getInfo(data) {
+      WelComeFunc(data).then((res) => {
+        if (res.status == 200) {
+          this.list = JSON.parse(res.data.list);
+          console.log(this.list);
+         
+        }
+      });
+    },
+    getPolicy(data) {
+      WelComeFunc(data).then((res) => {
+        if (res.status == 200) {
+          this.list = JSON.parse(res.data.list);
+          console.log(this.list);
+        }
+      });
+    },
+  },
   components: {},
 };
 </script>

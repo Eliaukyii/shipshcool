@@ -82,7 +82,7 @@
         <li
           :class="isCheck == index ? 'active' : ''"
           @click="handleSelect(item, index)"
-          v-for="(item, index) in MenuList.slice(0,12)"
+          v-for="(item, index) in MenuList"
           :key="item.index"
         >
           {{ item.Menu_Name }}
@@ -146,9 +146,7 @@ export default {
       });
     },
     handleSelect(item, index) {
-
       this.isCheck = index;
-      this.$bus.$emit("sendBus", item.Menu_ID);
 
       //Menu_ID存入localstorage
       let b = sessionStorage.setItem("Menu_ID", item.Menu_ID);
@@ -163,13 +161,8 @@ export default {
     getMenuList(data) {
       getMenuList(data).then((res) => {
         if (res.status != 200) return;
-        // console.log(res);
         this.MenuList = res.data.MenuList;
         this.BackGroundTitle = res.data.BackGroundTitle;
-        // this.Menu_ID=this.MenuList.forEach((item)=>{
-        //   console.log(item.Menu_ID);
-        // })
-        // console.log(this.MenuList);
       });
     },
 
@@ -180,7 +173,6 @@ export default {
         this.UserName = res.data.UserName;
         // this.Healmg = "data:image/png;base64" + res.data.Healmg;
         this.Healmg = res.data.Healmg;
-        // console.log(this.Healmg);
       });
     },
   },
@@ -189,6 +181,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/deep/ .el-menu--horizontal > .el-menu-item {
+  height: 48px;
+  line-height: 48px;
+  font-size: 16px;
+}
+
 //修改el-badge的位置
 /deep/ .el-badge__content.is-fixed {
   right: 0;

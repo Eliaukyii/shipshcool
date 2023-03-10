@@ -16,7 +16,7 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">关闭</el-button>
+        <el-button>关闭</el-button>
       </div>
     </el-dialog>
   </div>

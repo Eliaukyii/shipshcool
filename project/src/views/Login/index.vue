@@ -172,7 +172,7 @@ export default {
               console.log("res");
               this.$message.error(res.data.Msg);
             }
-          }).catch(err=>{
+          }).catch((err)=>{
             console.log(err);
           })
         }

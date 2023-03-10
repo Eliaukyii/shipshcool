@@ -3,6 +3,8 @@
     <el-menu
       :default-active="this.$router.path"
       router
+      @open="handleOpen"
+      @close="handleClose"
       class="el-menu-vertical-demo"
       background-color="#fff"
       text-color="#333"
@@ -10,8 +12,8 @@
       <el-menu-item
         @click="clickMenu(item)"
         v-for="item in noChildren"
-        :key="item.index"
-        :index="item.index"
+        :key="item.Menu_ID"
+        :index="item.Menu_ID"
       >
         <i :class="`el-icon-${item.Menu_Icon}`"></i>
         <span slot="title">{{ item.Menu_Name }}</span>
@@ -19,68 +21,27 @@
 
       <el-submenu
         v-for="item in hasChildren"
-        :key="item.index"
-        :index="item.index"
+        :key="item.Menu_ID"
+        :index="item.Menu_ID"
       >
         <template slot="title">
           <i :class="`el-icon-${item.Menu_Icon}`"></i>
           <span slot="title">{{ item.Menu_Name }}</span>
         </template>
         <el-menu-item-group
-          v-for="(subItem, subIndex) in item.child"
-          :key="subItem.index"
+          v-for="subItem in item.child"
+          :key="subItem.Menu_Url"
         >
-          <el-menu-item :index="subIndex + ''">{{
+          <el-menu-item @click="clickMenu(subItem)" :index="subItem.Menu_Url + ''">{{
             subItem.Menu_Name
           }}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <!-- <el-menu-item
-        :index="item.Menu_Url"
-        v-for="(item, index) in List"
-        :key="index"
-      >
-        <template slot="title">
-          <i :class="item.Menu_Icon"></i>
-          <span slot="title">{{ item.Menu_Name }}</span>
-        </template>
-      </el-menu-item> -->
-
-      <!-- <el-menu-item index="/clbx">
-       <template slot="title">
-        <i class="el-icon-setting"></i>
-        <span>差旅报销</span>
-      </template>
-    </el-menu-item>
-    <el-submenu index="2">
-      <template slot="title">
-        <i class="el-icon-s-data"></i>
-        <span>日常报销</span>
-      </template>
-      <el-menu-item-group>
-        <el-menu-item index="/bxsq"><i class="el-icon-reading"></i>报销申请</el-menu-item>
-          <el-menu-item index="/bxsp"><i class="el-icon-user-solid"></i>报销审批</el-menu-item>
-      </el-menu-item-group> 
-    </el-submenu>
-
-    <el-menu-item index="/jkbx" class="routerLink">
-       <template slot="title">
-        <i class="el-icon-folder-add"></i>
-        <span>借款报销</span>
-      </template>
-    </el-menu-item>
-
-     <el-menu-item index="/wlfk">
-       <template slot="title">
-        <i class="el-icon-coin"></i>
-        <span>往来付款</span>
-      </template>
-    </el-menu-item> -->
     </el-menu>
   </div>
 </template>
 <script>
-import { getChildMenu,GetButtons} from "@/api/index.js";
+import { getChildMenu, GetButtons } from "@/api/index.js";
 export default {
   data() {
     let a = sessionStorage.getItem("Token");
@@ -93,8 +54,8 @@ export default {
       Menu_Name: "",
       Menu_Icon: "",
       child: [],
-      Btn_Name:'',
-      Btns:''
+      Btn_Name: "",
+      Btns: "",
     };
   },
   created() {
@@ -107,23 +68,25 @@ export default {
     this.GetButtons({
       Appid: this.Appid,
       Token: this.Token,
-      MenuCode: '5ed20159-d1ad-4bbe-92f3-e574d9d6be88',
-      HideList:'123'
-    })
-  },
-  mounted() {
-    this.$bus.$on("sendBus", (Menu_ID) => {
-      console.log(Menu_ID);
+      MenuCode: "5ed20159-d1ad-4bbe-92f3-e574d9d6be88",
+      HideList: "123",
     });
   },
+  mounted() {
+    // this.$bus.$on("sendBus", (Menu_ID) => {
+    //   console.log(Menu_ID);
+    // });
+  },
   methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    },
     getChildMenu(data) {
       getChildMenu(data).then((res) => {
-        // console.log(res);
         this.List = res.data.List;
-        // this.child=res.data.List[0].child.map(item=>{
-        //   console.log(item.Menu_Name);
-        // })
       });
     },
     clickMenu(item) {
@@ -132,13 +95,12 @@ export default {
       //   this.$router.push(item.path)
       // }
     },
-    GetButtons(data){
-      GetButtons(data).then((res)=>{
-        this.Buttons=JSON.parse(res.data.Buttons)
+    GetButtons(data) {
+      GetButtons(data).then((res) => {
+        this.Buttons = JSON.parse(res.data.Buttons);
         console.log(this.Buttons);
-      })
-    }
-      
+      });
+    },
   },
   computed: {
     // 没有子菜单

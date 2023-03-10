@@ -1,15 +1,17 @@
 <template>
   <div>
-    <el-header>
-      <Header></Header>
-    </el-header>
     <el-container>
-      <Aside></Aside>
-      <el-main>
-        <breadcrumb></breadcrumb>
-        <!-- 路由出口 -->
-        <router-view></router-view>
-      </el-main>
+      <el-header><Header></Header></el-header>
+      <el-container>
+        <el-aside width="210px;"><Aside></Aside></el-aside>
+        <el-container>
+          <el-main>
+            <breadcrumb></breadcrumb>
+            <!-- 路由出口 -->
+            <router-view></router-view>
+          </el-main>
+        </el-container>
+      </el-container>
     </el-container>
   </div>
 </template>
@@ -39,10 +41,9 @@ export default {
   padding: 0;
 }
 .el-aside {
-  background-color: #d3dce6;
   color: #333;
-  text-align: center;
   line-height: 200px;
+  // text-align: center;
 }
 
 .el-main {
