@@ -32,7 +32,6 @@ export default {
     let a = sessionStorage.getItem("Token");
     return {
       MenuID: "000000",
-      Appid: "312502",
       Token: a,
       List: [],
       Menu_Name: "",
@@ -40,7 +39,6 @@ export default {
   },
   created() {
     this.getChildMenu({
-      Appid: this.Appid,
       Token: this.Token,
       MenuID: this.MenuID,
     });

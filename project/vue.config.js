@@ -4,7 +4,7 @@ module.exports = {
   publicPath: './',
   devServer:{
     open: true,     //设置自动启动浏览器
-    host: '192.168.2.102',
+    host: '192.168.2.109',
     port: 8080,
     proxy:{
       '/api':{

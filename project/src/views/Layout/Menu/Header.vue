@@ -146,6 +146,7 @@ export default {
       });
     },
     handleSelect(item, index) {
+
       this.isCheck = index;
 
       //Menu_ID存入localstorage

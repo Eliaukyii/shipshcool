@@ -76,7 +76,7 @@
             </el-form-item>
             <el-form-item>
               <el-button
-                @click.enter.native="login('form')"
+                @keyup.enter.native="login('form')"
                 type="primary"
                 style="width: 250px"
                 >登录</el-button
@@ -95,9 +95,7 @@
 
 <script>
 import { login, getVerifyCode } from "@/api/index.js";
-// import { IsLogin } from "../api/index.js";
 import md5 from "js-md5";
-import {setCookie} from '@/utils/auth';
 
 
 export default {
@@ -139,8 +137,6 @@ export default {
           login(data).then((res) => {
             if (res.status == 200) {
               // console.log(res)
-              setCookie("account",this.form.account,7);
-              setCookie("password",this.form.password,7);
               if(res.data.Code=== '03'){
                  this.$message({
                   message: res.data.Msg,

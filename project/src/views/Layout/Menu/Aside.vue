@@ -87,6 +87,7 @@ export default {
     getChildMenu(data) {
       getChildMenu(data).then((res) => {
         this.List = res.data.List;
+        // console.log(this.List);
       });
     },
     clickMenu(item) {

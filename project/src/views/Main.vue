@@ -40,6 +40,7 @@
           </div>
           <el-card>
             <el-table :data="tableData" style="width: 100%">
+              <!-- 表头数据 -->
               <el-table-column
                 :label="item.label"
                 v-for="(item, index) in tableHeader"
@@ -69,23 +70,38 @@
             <span class="right">查看全部</span>
           </div>
           <el-card style="margin-bottom: 52px">
-            <el-table :data="list" style="width: 100%" :show-header="false">
-              <el-table-column prop="title" width="92">
+            <el-table :data="list3" style="width: 100%" :show-header="false">
+              <el-table-column prop="Froms" width="120">
                 <template slot-scope="scope">
                   <span
-                    v-if="scope.row.title === '美的集团'"
+                    v-if="scope.row.Froms === '计划财务处'"
                     style="color: #2d6dcc; background: #eff5ff; padding: 8px"
-                    >美的集团</span
+                    >计划财务处</span
                   >
                   <span
-                    v-if="scope.row.title === '贵州茅台'"
+                    v-if="scope.row.Froms === '学院文件'"
                     style="color: #2d6dcc; background: #eff5ff; padding: 8px"
-                    >贵州茅台</span
+                    >学院文件</span
+                  >
+                  <span
+                    v-if="scope.row.Froms === '计财处'"
+                    style="color: #2d6dcc; background: #eff5ff; padding: 8px"
+                    >计财处</span
+                  >
+                  <span
+                    v-if="scope.row.Froms === '党办'"
+                    style="color: #2d6dcc; background: #eff5ff; padding: 8px"
+                    >党办</span
                   >
                 </template>
               </el-table-column>
-              <el-table-column prop="Titles"> </el-table-column>
-              <el-table-column prop="CreateDate" align="right">
+              <el-table-column prop="Titles" :show-overflow-tooltip="true">
+              </el-table-column>
+              <el-table-column
+                prop="CreateDate"
+                align="right"
+                :formatter="formatTime"
+              >
               </el-table-column>
             </el-table>
           </el-card>
@@ -95,10 +111,11 @@
             <span class="right">查看全部</span>
           </div>
           <el-card>
-            <el-table :data="list" style="width: 100%" :show-header="false">
+            <el-table :data="list2" style="width: 100%" :show-header="false">
               <el-table-column prop="Titles"></el-table-column>
               <el-table-column
                 prop="CreateDate"
+                :formatter="formatTime"
                 align="right"
               ></el-table-column>
             </el-table>
@@ -141,6 +158,7 @@ export default {
           image: require("@/assets/images/main/menus/常用菜单图标6.png"),
         },
       ],
+      // tableDate: [],
       tableData: [
         {
           type: "报销审核",
@@ -216,7 +234,9 @@ export default {
         },
       ],
 
-      list: [],
+      list2: [], //消息通知
+      list3: [], //政策信息
+      list4: [], //待办事项
       imgLists: [
         {
           text: "日常报销",
@@ -289,6 +309,7 @@ export default {
       Token: a,
       active: "",
       Titles: "",
+      CreateDate: [],
     };
   },
   created() {
@@ -296,28 +317,66 @@ export default {
       Appid: this.Appid,
       Token: this.Token,
       active: "List2",
-    }),
-      this.getPolicy({
-        Appid: this.Appid,
-        Token: this.Token,
-        active: "List3",
-      });
+    });
+    this.getPolicy({
+      Appid: this.Appid,
+      Token: this.Token,
+      active: "List3",
+    });
+
+    this.getToDo({
+      Appid: this.Appid,
+      Token: this.Token,
+      active: "List4",
+    });
   },
   methods: {
-    getInfo(data) {
-      WelComeFunc(data).then((res) => {
-        if (res.status == 200) {
-          this.list = JSON.parse(res.data.list);
-          console.log(this.list);
-         
-        }
-      });
+    // 时间格式化
+    formatTime(row, column) {
+      let data = row[column.property];
+      let dtime = new Date(data);
+      let month = dtime.getMonth() + 1;
+      if (month < 10) {
+        month = "0" + month;
+      }
+      let day = dtime.getDate();
+      if (day < 10) {
+        day = "0" + day;
+      }
+      return month + "-" + day;
     },
+
+    // 政策信息
     getPolicy(data) {
       WelComeFunc(data).then((res) => {
         if (res.status == 200) {
-          this.list = JSON.parse(res.data.list);
-          console.log(this.list);
+          this.list3 = JSON.parse(res.data.list);
+        }
+      });
+    },
+
+    // 消息通知
+    getInfo(data) {
+      WelComeFunc(data).then((res) => {
+        if (res.status == 200) {
+          this.list2 = JSON.parse(res.data.list);
+
+          // for(let i=0;i<this.list1.length;i++){
+          // var dateformat = require('dateformat-util');
+          // var CreateDate = dateformat.format(new Date(this.list1[i].CreateDate),"MM-dd");
+          // console.log(CreateDate);
+          // }
+        }
+      });
+    },
+
+    // 待办
+    getToDo(data) {
+      WelComeFunc(data).then((res) => {
+        if (res.status == 200) {
+          let list = JSON.parse(res.data.list);
+          let list4 = JSON.parse(list.msg);
+          console.log(list4);
         }
       });
     },
@@ -420,5 +479,7 @@ export default {
 //设置表格每一行悬停的背景色
 /deep/.el-table--enable-row-hover .el-table__body tr:hover > td {
   background-color: #f3f9ff;
+  color: #2d6dcc;
+  cursor: pointer;
 }
 </style>
