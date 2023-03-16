@@ -32,9 +32,11 @@
           v-for="subItem in item.child"
           :key="subItem.Menu_Url"
         >
-          <el-menu-item @click="clickMenu(subItem)" :index="subItem.Menu_Url + ''">{{
-            subItem.Menu_Name
-          }}</el-menu-item>
+          <el-menu-item
+            @click="clickMenu(subItem)"
+            :index="subItem.Menu_Url + ''"
+            >{{ subItem.Menu_Name }}</el-menu-item
+          >
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -42,6 +44,7 @@
 </template>
 <script>
 import { getChildMenu, GetButtons } from "@/api/index.js";
+
 export default {
   data() {
     let a = sessionStorage.getItem("Token");
@@ -84,11 +87,16 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
+
     getChildMenu(data) {
       getChildMenu(data).then((res) => {
-        this.List = res.data.List;
-        // console.log(this.List);
-      });
+        if (res.status == "200") {
+          if (res.data.Code == "00") {
+            console.log(res);
+            this.List = res.data.List;
+          }
+        }
+      })
     },
     clickMenu(item) {
       console.log(item);
@@ -98,8 +106,9 @@ export default {
     },
     GetButtons(data) {
       GetButtons(data).then((res) => {
-        this.Buttons = JSON.parse(res.data.Buttons);
-        console.log(this.Buttons);
+        console.log(res);
+        // this.Buttons = JSON.parse(res.data.Buttons);
+        // console.log(this.Buttons);
       });
     },
   },

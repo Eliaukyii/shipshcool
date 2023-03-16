@@ -76,7 +76,7 @@
             </el-form-item>
             <el-form-item>
               <el-button
-                @keyup.enter.native="login('form')"
+                @click.enter.native="login('form')"
                 type="primary"
                 style="width: 250px"
                 >登录</el-button

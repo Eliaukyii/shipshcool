@@ -1,5 +1,5 @@
 {
     "Code": "00",
     "Msg": "success",
-    "Buttons": "{\"Btns\":[{\"Btn_Code\":\"Lookup\",\"Btn_Class\":\"4-success\",\"Btn_Name\":\"查看\"},{\"Btn_Code\":\"LookImage\",\"Btn_Class\":\"4-success\",\"Btn_Name\":\"查看流程图\"},{\"Btn_Code\":\"Approval\",\"Btn_Class\":\"5-warning\",\"Btn_Name\":\"审批\"},{\"Btn_Code\":\"Credential\",\"Btn_Class\":\"5-warning\",\"Btn_Name\":\"生成凭证\"},{\"Btn_Code\":\"DelCredential\",\"Btn_Class\":\"6-danger\",\"Btn_Name\":\"删除凭证\"}],\"HideBtns\":\"Transfer\"}"
+    "Buttons": "{\"Btns\":[{\"Btn_Code\":\"PrintView\",\"Btn_Class\":\"1-default\",\"Btn_Name\":\"打印设计\"},{\"Btn_Code\":\"Add\",\"Btn_Class\":\"2-primary\",\"Btn_Name\":\"新增\"},{\"Btn_Code\":\"Edit\",\"Btn_Class\":\"2-primary\",\"Btn_Name\":\"编辑\"},{\"Btn_Code\":\"Lookup\",\"Btn_Class\":\"4-success\",\"Btn_Name\":\"查看\"},{\"Btn_Code\":\"LookImage\",\"Btn_Class\":\"4-success\",\"Btn_Name\":\"查看流程图\"},{\"Btn_Code\":\"Delete\",\"Btn_Class\":\"8-normal\",\"Btn_Name\":\"删除\"}],\"HideBtns\":\"\"}"
 }

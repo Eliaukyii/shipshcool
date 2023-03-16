@@ -79,7 +79,7 @@
     </div>
     <div class="main">
       <ul class="nav">
-        <li
+         <li
           :class="isCheck == index ? 'active' : ''"
           @click="handleSelect(item, index)"
           v-for="(item, index) in MenuList"
@@ -148,7 +148,6 @@ export default {
     handleSelect(item, index) {
 
       this.isCheck = index;
-
       //Menu_ID存入localstorage
       let b = sessionStorage.setItem("Menu_ID", item.Menu_ID);
       if (b == null && b == "") {
@@ -157,6 +156,7 @@ export default {
         sessionStorage.getItem("Menu_ID", item.Menu_ID);
       }
     },
+
 
     //顶部导航栏
     getMenuList(data) {

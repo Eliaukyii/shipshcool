@@ -39,24 +39,19 @@
             ><span class="right">查看全部</span>
           </div>
           <el-card>
-            <el-table :data="tableData" style="width: 100%">
-              <!-- 表头数据 -->
-              <el-table-column
-                :label="item.label"
-                v-for="(item, index) in tableHeader"
-                :key="index"
-                :prop="item.value"
-                :show-overflow-tooltip="true"
-                align="center"
-              >
+            <el-table :data="list4" style="width: 100%">
+              <el-table-column label="申报类型" prop="PFI_Type" align="center"></el-table-column>
+              <el-table-column label="申请日期" prop="CreateDateStr" align="center"></el-table-column>
+              <el-table-column label="申请人" prop="PFI_UserID" align="center"></el-table-column>
+              <el-table-column label="单号" prop="PFI_Name" align="center"></el-table-column>
+              <el-table-column label="申请金额" prop="AI_Status" align="center"></el-table-column>
+              <el-table-column label="摘要" prop="status" align="center">
+                <template slot-scope="scope">
+                   <div v-html="scope.row.status"></div>
+                </template>
               </el-table-column>
-              <el-table-column
-                fixed="right"
-                label="操作"
-                width="80"
-                align="center"
-              >
-                <template>
+              <el-table-column label="操作" fixed="right" width="80" align="center">
+                 <template>
                   <el-button type="text" size="small">审核</el-button>
                 </template>
               </el-table-column>
@@ -111,7 +106,7 @@
             <span class="right">查看全部</span>
           </div>
           <el-card>
-            <el-table :data="list2" style="width: 100%" :show-header="false">
+            <el-table :data="list2" style="width: 100%" :show-header="false" @row-click="rowClick">
               <el-table-column prop="Titles"></el-table-column>
               <el-table-column
                 prop="CreateDate"
@@ -158,81 +153,81 @@ export default {
           image: require("@/assets/images/main/menus/常用菜单图标6.png"),
         },
       ],
-      // tableDate: [],
-      tableData: [
-        {
-          type: "报销审核",
-          date: "2022-09-26 23:38",
-          name: "陈晨",
-          number: "2022092600010002",
-          money: "20,000.00",
-          desc: "摘要摘要摘要摘要摘要…",
-          operate: "审核",
-        },
-        {
-          type: "薪酬审核",
-          date: "2022-09-26 23:38",
-          name: "陈晨",
-          number: "2022092600010002",
-          money: "20,000.00",
-          desc: "摘要摘要摘要摘要摘要…",
-          operate: "审核",
-        },
-        {
-          type: "借款审核",
-          date: "2022-09-26 23:38",
-          name: "陈晨",
-          number: "2022092600010002",
-          money: "20,000.00",
-          desc: "摘要摘要摘要摘要摘要…",
-          operate: "审核",
-        },
-        {
-          type: "付款审核",
-          date: "2022-09-26 23:38",
-          name: "陈晨",
-          number: "2022092600010002",
-          money: "20,000.00",
-          desc: "摘要摘要摘要摘要摘要…",
-          operate: "审核",
-        },
-        {
-          type: "报销审核",
-          date: "2022-09-26 23:38",
-          name: "陈晨",
-          number: "2022092600010002",
-          money: "20,000.00",
-          desc: "摘要摘要摘要摘要摘要…",
-          operate: "审核",
-        },
-        {
-          type: "薪酬审核",
-          date: "2022-09-26 23:38",
-          name: "陈晨",
-          number: "2022092600010002",
-          money: "20,000.00",
-          desc: "摘要摘要摘要摘要摘要…",
-          operate: "审核",
-        },
-        {
-          type: "借款审核",
-          date: "2022-09-26 23:38",
-          name: "陈晨",
-          number: "2022092600010002",
-          money: "20,000.00",
-          desc: "摘要摘要摘要摘要摘要…",
-          operate: "审核",
-        },
-        {
-          type: "付款审核",
-          date: "2022-09-26 23:38",
-          name: "陈晨",
-          number: "2022092600010002",
-          money: "20,000.00",
-          desc: "摘要摘要摘要摘要摘要…",
-          operate: "审核",
-        },
-      ],
+      tableDate: [],
+      // list4: [
+      //   {
+      //     type: "报销审核",
+      //     date: "2022-09-26 23:38",
+      //     name: "陈晨",
+      //     number: "2022092600010002",
+      //     money: "20,000.00",
+      //     desc: "摘要摘要摘要摘要摘要…",
+      //     operate: "审核",
+      //   },
+      //   {
+      //     type: "薪酬审核",
+      //     date: "2022-09-26 23:38",
+      //     name: "陈晨",
+      //     number: "2022092600010002",
+      //     money: "20,000.00",
+      //     desc: "摘要摘要摘要摘要摘要…",
+      //     operate: "审核",
+      //   },
+      //   {
+      //     type: "借款审核",
+      //     date: "2022-09-26 23:38",
+      //     name: "陈晨",
+      //     number: "2022092600010002",
+      //     money: "20,000.00",
+      //     desc: "摘要摘要摘要摘要摘要…",
+      //     operate: "审核",
+      //   },
+      //   {
+      //     type: "付款审核",
+      //     date: "2022-09-26 23:38",
+      //     name: "陈晨",
+      //     number: "2022092600010002",
+      //     money: "20,000.00",
+      //     desc: "摘要摘要摘要摘要摘要…",
+      //     operate: "审核",
+      //   },
+      //   {
+      //     type: "报销审核",
+      //     date: "2022-09-26 23:38",
+      //     name: "陈晨",
+      //     number: "2022092600010002",
+      //     money: "20,000.00",
+      //     desc: "摘要摘要摘要摘要摘要…",
+      //     operate: "审核",
+      //   },
+      //   {
+      //     type: "薪酬审核",
+      //     date: "2022-09-26 23:38",
+      //     name: "陈晨",
+      //     number: "2022092600010002",
+      //     money: "20,000.00",
+      //     desc: "摘要摘要摘要摘要摘要…",
+      //     operate: "审核",
+      //   },
+      //   {
+      //     type: "借款审核",
+      //     date: "2022-09-26 23:38",
+      //     name: "陈晨",
+      //     number: "2022092600010002",
+      //     money: "20,000.00",
+      //     desc: "摘要摘要摘要摘要摘要…",
+      //     operate: "审核",
+      //   },
+      //   {
+      //     type: "付款审核",
+      //     date: "2022-09-26 23:38",
+      //     name: "陈晨",
+      //     number: "2022092600010002",
+      //     money: "20,000.00",
+      //     desc: "摘要摘要摘要摘要摘要…",
+      //     operate: "审核",
+      //   },
+      // ],
 
       list2: [], //消息通知
       list3: [], //政策信息
@@ -310,6 +305,11 @@ export default {
       active: "",
       Titles: "",
       CreateDate: [],
+      toDoData: {
+        Appid: "312502",
+        Token: a,
+        active: "List4",
+      },
     };
   },
   created() {
@@ -324,17 +324,24 @@ export default {
       active: "List3",
     });
 
-    this.getToDo({
-      Appid: this.Appid,
-      Token: this.Token,
-      active: "List4",
-    });
+    // this.getToDo({
+    //   Appid: this.Appid,
+    //   Token: this.Token,
+    //   active: "List4",
+    // });
+  },
+  mounted() {
+    this.getToDo()
   },
   methods: {
+    rowClick(row){
+      console.log(row.Contents);
+    },
     // 时间格式化
     formatTime(row, column) {
       let data = row[column.property];
       let dtime = new Date(data);
+      const year = dtime.getFullYear()
       let month = dtime.getMonth() + 1;
       if (month < 10) {
         month = "0" + month;
@@ -343,7 +350,7 @@ export default {
       if (day < 10) {
         day = "0" + day;
       }
-      return month + "-" + day;
+      return year+ '-' + month + "-" + day;
     },
 
     // 政策信息
@@ -360,25 +367,27 @@ export default {
       WelComeFunc(data).then((res) => {
         if (res.status == 200) {
           this.list2 = JSON.parse(res.data.list);
-
-          // for(let i=0;i<this.list1.length;i++){
-          // var dateformat = require('dateformat-util');
-          // var CreateDate = dateformat.format(new Date(this.list1[i].CreateDate),"MM-dd");
-          // console.log(CreateDate);
-          // }
+          console.log(this.list2);
         }
       });
     },
 
     // 待办
-    getToDo(data) {
-      WelComeFunc(data).then((res) => {
+    getToDo() {
+      // WelComeFunc(data).then((res) => {
+      //   if (res.status == 200) {
+      //     let list = JSON.parse(res.data.list);
+      //     let list4 = JSON.parse(list.msg);
+      //     console.log(list4);
+      //   }
+      // });
+      WelComeFunc({ ...this.toDoData }).then((res) => {
         if (res.status == 200) {
+          // console.log(res);
           let list = JSON.parse(res.data.list);
-          let list4 = JSON.parse(list.msg);
-          console.log(list4);
+          this.list4 = JSON.parse(list.msg);
         }
-      });
+      })
     },
   },
   components: {},
