@@ -154,12 +154,7 @@ export default {
                 })
 
                 //存储Token
-                let a = sessionStorage.setItem('Token',data.Token);
-                if(a==null&&a==""){
-                  sessionStorage.setItem('Token',data.Token)
-                }else{
-                  sessionStorage.getItem('Token',data.Token)
-                }
+                window.sessionStorage.setItem('Token',data.Token);
 
                 //登录成功跳转到首页
                 this.$router.push('/home')

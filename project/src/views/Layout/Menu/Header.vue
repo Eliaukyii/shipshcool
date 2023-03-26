@@ -77,7 +77,44 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="main">
+    <!-- <div class="main">
+      <ul class="nav">
+         <li
+          :class="isCheck == index ? 'active' : ''"
+          @click="handleSelect(item, index)"
+          v-for="(item, index) in MenuList"
+          :key="item.index"
+        >
+          {{ item.Menu_Name }}
+        </li>
+      </ul>
+    </div> -->
+
+     <!-- 水平一级菜单 -->
+    <!-- <div
+      class="main"
+      style="margin-left: 200px; margin-right: 200px; display: flex;"
+    >
+      <el-menu
+        class="el-menu-demo"
+        mode="horizontal"
+        background-color="#2d6dcc"
+        text-color="#fff"
+        active-text-color="#fff"
+        :default-active="activeIndex" 
+        @click="handleSelect(item, index)"
+      >
+        <el-menu-item
+          v-for="(item, index) in MenuList"
+          :key="index"
+          :index="item.Menu_ID"
+        >
+          <span slot="title">{{ item.Menu_Name }}</span>
+        </el-menu-item>
+      </el-menu>
+    </div> -->
+
+        <div class="main">
       <ul class="nav">
          <li
           :class="isCheck == index ? 'active' : ''"
@@ -109,6 +146,7 @@ export default {
       BackGroundTitle: "",
       Menu_ID: "",
       Org: "",
+      activeIndex:'1'
     };
   },
   created() {
@@ -123,19 +161,6 @@ export default {
     });
   },
   mounted() {},
-  // mounted() {
-  //   //上次登录时间
-
-  //   let DateFormat = require('dateformat-util');
-  //   this.timer=setInterval(()=>{
-  //     this.date=DateFormat.format(new Date());
-  //   },1000)
-  // },
-  // beforeDestroy(){
-  //   if(this.timer){
-  //     clearInterval(this.timer)
-  //   }
-  // },
   methods: {
     //退出登录
     exit() {
@@ -145,16 +170,10 @@ export default {
         }
       });
     },
+    // 传递Menu_ID给侧边栏
     handleSelect(item, index) {
-
       this.isCheck = index;
-      //Menu_ID存入localstorage
-      let b = sessionStorage.setItem("Menu_ID", item.Menu_ID);
-      if (b == null && b == "") {
-        sessionStorage.setItem("Menu_ID", item.Menu_ID);
-      } else {
-        sessionStorage.getItem("Menu_ID", item.Menu_ID);
-      }
+      this.$bus.$emit('sendMenuID',item.Menu_ID)
     },
 
 
@@ -186,6 +205,7 @@ export default {
   height: 48px;
   line-height: 48px;
   font-size: 16px;
+  border-bottom:0
 }
 
 //修改el-badge的位置
@@ -214,6 +234,10 @@ export default {
   border-bottom-color: #1ebef4 !important;
   left: 50% !important;
   visibility: hidden;
+}
+//去掉点击时导航栏下划线
+.el-menu--horizontal>.el-menu-item.is-active{
+  border-bottom: 0;
 }
 .active {
   background-color: #2356a2;
@@ -245,7 +269,7 @@ export default {
   }
   .right {
     right: 0;
-    width: 200px;
+    width: 220px;
     line-height: 48px;
     .el-dropdown {
       float: right;

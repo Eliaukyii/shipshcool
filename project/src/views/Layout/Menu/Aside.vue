@@ -43,16 +43,14 @@
   </div>
 </template>
 <script>
-import { getChildMenu, GetButtons } from "@/api/index.js";
+import { GetButtons,getChildMenu} from "@/api/index.js";
 
 export default {
   data() {
     let a = sessionStorage.getItem("Token");
-    let b = sessionStorage.getItem("Menu_ID");
     return {
       Appid: "312502",
       Token: a,
-      MenuID: b,
       List: [],
       Menu_Name: "",
       Menu_Icon: "",
@@ -62,12 +60,6 @@ export default {
     };
   },
   created() {
-    this.getChildMenu({
-      Appid: this.Appid,
-      Token: this.Token,
-      MenuID: this.MenuID,
-    });
-
     this.GetButtons({
       Appid: this.Appid,
       Token: this.Token,
@@ -76,9 +68,16 @@ export default {
     });
   },
   mounted() {
-    // this.$bus.$on("sendBus", (Menu_ID) => {
-    //   console.log(Menu_ID);
-    // });
+
+    this.$bus.$on("sendMenuID", (Menu_ID) => {
+     this.MenuID=Menu_ID
+      this.getChildMenu({
+      Appid: this.Appid,
+      Token: this.Token,
+      MenuID: this.MenuID,
+    });
+
+    });
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -98,11 +97,9 @@ export default {
         }
       })
     },
+
     clickMenu(item) {
       console.log(item);
-      // if (this.$route.path !== item.path && !(this.$route.path === '/home' && (item.path === '/'))) {
-      //   this.$router.push(item.path)
-      // }
     },
     GetButtons(data) {
       GetButtons(data).then((res) => {

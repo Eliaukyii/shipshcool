@@ -1,56 +1,34 @@
 <template>
   <div class="tab">
     <span class="tabbar">
-      <!-- <i class="iconfont icon-left-mini"></i>
-      <span
-        class="text"
-        style="color: #2d6dcc"
-        v-for="(item, index) in List"
-        :key="index"
-        >{{ item.Menu_Name }}</span> -->
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item
-          :to="{ path: '/' }"
-          v-for="(item, index) in List"
-          :key="index"
-          >{{ item.Menu_Name }}</el-breadcrumb-item
-        >
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item v-for="item in breadCrumbList" :key="item.path" :to="item.path">
+                {{item.meta.title}}
+            </el-breadcrumb-item>
         </el-breadcrumb>
     </span>
   </div>
 </template>
 
 <script>
-var spanArr = document.getElementsByTagName("span");
-console.log(spanArr);
 </script>
 <script>
-import { getChildMenu } from "@/api/index.js";
 export default {
   data() {
-    let a = sessionStorage.getItem("Token");
     return {
-      MenuID: "000000",
-      Token: a,
-      List: [],
-      Menu_Name: "",
+     
     };
   },
   created() {
-    this.getChildMenu({
-      Token: this.Token,
-      MenuID: this.MenuID,
-    });
+   
+  },
+  computed:{
+    breadCrumbList(){
+      return this.$route.matched
+    }
   },
   methods: {
-    getChildMenu(data) {
-      getChildMenu(data).then((res) => {
-        // console.log(res);
-        this.List = res.data.List;
-        this.Menu_Name = res.data.Menu_Name;
-      });
-    },
+    
   },
   components: {},
 };
