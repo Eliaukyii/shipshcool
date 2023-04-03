@@ -4,12 +4,10 @@
       <el-header><Header></Header></el-header>
       <el-container>
         <el-aside width="210px;"><Aside></Aside></el-aside>
-        <el-container>
           <el-main>
             <breadcrumb></breadcrumb>
             <router-view></router-view>
           </el-main>
-        </el-container>
       </el-container>
     </el-container>
     
@@ -23,7 +21,6 @@ import Breadcrumb from "@/views/Layout/Menu/Breadcrumb.vue";
 export default {
   data() {
     return {
-      Menu_ID:''
     };
   },
   methods: {

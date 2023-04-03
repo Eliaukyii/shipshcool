@@ -300,7 +300,7 @@ export default {
       WelComeFunc(data).then((res) => {
         if (res.status == 200) {
           this.list2 = JSON.parse(res.data.list);
-          console.log(this.list2);
+          // console.log(this.list2);
         }
       });
     },

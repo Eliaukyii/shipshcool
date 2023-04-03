@@ -1,10 +1,8 @@
 <template>
   <div class="sidebar">
     <el-menu
-      :default-active="this.$router.path"
+      :default-active="toIndex()"
       router
-      @open="handleOpen"
-      @close="handleClose"
       class="el-menu-vertical-demo"
       background-color="#fff"
       text-color="#333"
@@ -30,11 +28,11 @@
         </template>
         <el-menu-item-group
           v-for="subItem in item.child"
-          :key="subItem.Menu_Url"
+          :key="subItem.Menu_ID"
         >
           <el-menu-item
             @click="clickMenu(subItem)"
-            :index="subItem.Menu_Url + ''"
+            :index="subItem.Menu_ID"
             >{{ subItem.Menu_Name }}</el-menu-item
           >
         </el-menu-item-group>
@@ -49,6 +47,7 @@ export default {
   data() {
     let a = sessionStorage.getItem("Token");
     return {
+      defaultActive:'',
       Appid: "312502",
       Token: a,
       List: [],
@@ -68,24 +67,19 @@ export default {
     });
   },
   mounted() {
-
     this.$bus.$on("sendMenuID", (Menu_ID) => {
      this.MenuID=Menu_ID
       this.getChildMenu({
       Appid: this.Appid,
       Token: this.Token,
       MenuID: this.MenuID,
-    });
-
-    });
+    })
+    })
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
+  toIndex(){
+    return this.$route.path.split('/')[2];
+  },
 
     getChildMenu(data) {
       getChildMenu(data).then((res) => {
@@ -100,6 +94,10 @@ export default {
 
     clickMenu(item) {
       console.log(item);
+//           this.$router.options.routes.map((item) => {
+//         console.log(item.children);
+// });
+
     },
     GetButtons(data) {
       GetButtons(data).then((res) => {
