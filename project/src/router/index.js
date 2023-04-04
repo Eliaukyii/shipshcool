@@ -17,40 +17,40 @@ const routes = [{
         {
             name: 'Bxsq',
             path: '/CustomApprovlsheet_List',
-            component: () => import('@/views/Layout/Content/Bxsq.vue'), //日常报销申请
+            component: () => import('@/views/Layout/Content/DeclareManage/Bxsq.vue'), //日常报销申请
         },
         {
             name: 'Clbx',
             path: '/ApprovalTravel_List',
-            component: () => import('@/views/Layout/Content/Clbx.vue'), //差旅报销申请
+            component: () => import('@/views/Layout/Content/DeclareManage/Clbx.vue'), //差旅报销申请
         },
         {
             name: 'Jkbx',
             path: '/CustomAnysingle_List',
-            component: () => import('@/views/Layout/Content/Jkbx.vue'), //个人借支申请
+            component: () => import('@/views/Layout/Content/DeclareManage/Jkbx.vue'), //个人借支申请
         },
         {
             name: 'Wlfk',
             path: '/184727cc-1b9f-4788-a452-bc16987e10ad',
-            component: () => import('@/views/Layout/Content/Wlfk.vue'), //往来付款申请
+            component: () => import('@/views/Layout/Content/DeclareManage/Wlfk.vue'), //往来付款申请
         },
 
         //审批管理
         {
             name: 'Bxsp',
             path: '/CustomApprovlsheet_SP',
-            component: () => import('@/views/Layout/Content/Bxsp.vue'), //日常报销审批
+            component: () => import('@/views/Layout/Content/ApprovalManage/Bxsp.vue'), //日常报销审批
         },
         {
             name: 'ClbxSp',
             path: '/ApprovalTravel_SP',
-            component: () => import('@/views/Layout/Content/ClbxSp.vue'), //差旅报销审批
+            component: () => import('@/views/Layout/Content/ApprovalManage/ClbxSp.vue'), //差旅报销审批
         },
 
         {
             name: 'newBxsq',
             path: '/newbxsq',
-            component: () => import('@/views/Layout/Content/newBxsq.vue'), //新建报销申请
+            component: () => import('@/views/Layout/Content/DeclareManage/newBxsq.vue'), //新建报销申请
         },
         {
             name: 'Fjmk',
@@ -60,7 +60,7 @@ const routes = [{
         {
             name: 'Zygl',
             path: '/zygl',
-            component: () => import('@/views/Layout/Content/Zygl.vue') //摘要管理
+            component: () => import('@/views/Layout/Content/DeclareManage/Zygl.vue') //摘要管理
         },
         {
             name: 'Gwbg',

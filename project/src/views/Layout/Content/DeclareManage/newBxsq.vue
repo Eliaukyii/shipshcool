@@ -1,7 +1,7 @@
 <template>
   <div class="formAccount">
     <el-card style="margin-top: 8px; margin-left: -8px">
-      <div class="top" style="height: 724px">
+      <div class="top">
         <div id="Design">
           <el-steps
             :active="active"
@@ -34,9 +34,9 @@
 
 
 <script>
-import bxd from "@/views/Layout/Content/bxsq/bxd.vue";
-import fj from "@/views/Layout/Content/bxsq/fj.vue";
-import cxjk from "@/views/Layout/Content/bxsq/cxjk.vue";
+import bxd from "@/views/Layout/Content/DeclareManage/FormDetail/bxd.vue";
+import fj from "@/views/Layout/Content/DeclareManage/FormDetail/fj.vue";
+import cxjk from "@/views/Layout/Content/DeclareManage/FormDetail/cxjk.vue";
 import projectDialog from '@/components/projectDialog.vue'
 export default {
   data() {
@@ -83,6 +83,7 @@ export default {
   .bottom {
     border-top: 1px solid #e9e9e9;
     padding-top: 8px;
+    margin-top:144px;
     display: flex;
     justify-content: center;
   }
