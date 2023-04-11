@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const routes = [{
         path: '/',
         component: ()=>import('../views/Main.vue'),
-        name: 'Main',
+        name: '首页',
         redirect: '/login',
         children: [{
             path: 'home',
@@ -15,67 +15,55 @@ const routes = [{
         },
         // 申报管理
         {
-            name: 'Rcbx',
+            name: '日常报销申请',
             path: '/CustomApprovlsheet_List',
-            component: () => import('@/views/Layout/Content/DeclareManage/DailyApply/component/Rcbx.vue'), //日常报销申请
+            component: () => import('@/views/Layout/Content/DeclareManage/DailyApply/component/Rcbx.vue'),
         },
         {
-            name: 'Clbx',
+            name: '差旅报销申请',
             path: '/ApprovalTravel_List',
-            component: () => import('@/views/Layout/Content/DeclareManage/TravelApply/component/Clbx.vue'), //差旅报销申请
+            component: () => import('@/views/Layout/Content/DeclareManage/TravelApply/component/Clbx.vue'),
         },
         {
-            name: 'Jkbx',
+            name: '个人借支申请',
             path: '/CustomAnysingle_List',
-            component: () => import('@/views/Layout/Content/DeclareManage/DebitApply/component/Jkbx.vue'), //个人借支申请
+            component: () => import('@/views/Layout/Content/DeclareManage/DebitApply/component/Jkbx.vue'),
         },
         {
-            name: 'Wlfk',
+            name: '往来付款申请',
             path: '/184727cc-1b9f-4788-a452-bc16987e10ad',
-            component: () => import('@/views/Layout/Content/DeclareManage/PaymentApply/component/Wlfk.vue'), //往来付款申请
+            component: () => import('@/views/Layout/Content/DeclareManage/PaymentApply/component/Wlfk.vue'),
         },
-        // {
-        //     name:'TravelExpense',
-        //     path:'/TravelExpense',
-        //     component:()=>import('@/views/Layout/Content/DeclareManage/TravelApply/TravelExpense.vue')        //差旅费报销单
-        // },
-        // {
-        //     name:'DebitNote',
-        //     path:'/DebitNote',
-        //     component:()=>import('@/views/Layout/Content/DeclareManage/DebitApply/component/DebitNote.vue')      //借支单
-        // },
-        // {
-        //     name:'PaymentApply',
-        //     path:'PaymentApply',
-        //     component:()=>import('@/views/Layout/Content/DeclareManage/PaymentApply/CurrentPayment.vue')
-        // },
 
         //审批管理
         {
-            name: 'DailySP',
+            name: '日常报销审批',
             path: '/CustomApprovlsheet_SP',
-            component: () => import('@/views/Layout/Content/ApprovalManage/DailySP/index.vue'), //日常报销审批
+            component: () => import('@/views/Layout/Content/ApprovalManage/DailySP/index.vue'),
         },
         {
-            name: 'TravelSP',
+            name: '差旅报销审批',
             path: '/ApprovalTravel_SP',
-            component: () => import('@/views/Layout/Content/ApprovalManage/TravelSP/index.vue'), //差旅报销审批
+            component: () => import('@/views/Layout/Content/ApprovalManage/TravelSP/index.vue'),
         },
         {
-            name: 'DebitSP',
+            name: '个人借支审批',
             path: '/CustomAnysingle_SP',
-            component: () => import('@/views/Layout/Content/ApprovalManage/DebitSP/index.vue'), //个人借支审批
+            component: () => import('@/views/Layout/Content/ApprovalManage/DebitSP/index.vue'),
         },
         {
-            name: 'PaymentSP',
+            name: '往来付款审批',
             path: '/8cca0fea-84fc-4427-ac34-ba47154d5c80',
-            component: () => import('@/views/Layout/Content/ApprovalManage/PaymentSP/index.vue'), //往来付款审批
+            component: () => import('@/views/Layout/Content/ApprovalManage/PaymentSP/index.vue'),
         },
+
+
+
 
         {
             name: 'StepPage',
             path: '/StepPage',
-            component: () => import('@/views/Layout/Content/DeclareManage/DailyApply/StepPage.vue'), //新建报销申请
+            component: () => import('@/views/Layout/Content/DeclareManage/DailyApply/StepPage.vue'), //步骤条
         },
         {
             name: 'Fjmk',
