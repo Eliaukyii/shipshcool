@@ -2,8 +2,9 @@
   <div class="tab">
     <span class="tabbar">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item v-for="item in breadCrumbList" :key="item.path" :to="item.path">
-                {{item.meta.title}}
+        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="item in breadCrumbList" :key="item.Menu_ID">
+                {{item.name}}
             </el-breadcrumb-item>
         </el-breadcrumb>
     </span>
