@@ -46,28 +46,14 @@
               >
               </el-option>
             </el-select>
-            <span style="margin-left: 30px">搜素条件</span>
-            <el-select
-              v-model="value"
-              placeholder="请选择"
-              style="width: 152px; margin-left: 8px"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
             <el-select
               v-model="value"
               multiple
               filterable
               remote
               reserve-keyword
-              placeholder="请输入单号"
-              style="width: 200px; margin-left: 8px"
+              placeholder="请输入申请单号、申报人、报销人"
+              style="width: 256px; margin-left: 8px"
             >
               <el-option
                 v-for="item in options"
@@ -77,61 +63,77 @@
               >
               </el-option>
             </el-select>
-            <button
-              class="btn"
-              style="margin-left: 8px; background: #2d6dcc; color: #fff"
+            <span
+              style="margin-left: 8px; color: #2d6dcc; cursor: pointer"
+              v-if="isShow"
+              @click="spread"
             >
-              查询
-            </button>
-            <button class="btn" style="width: 70px">高级查询</button>
+              高级<i class="el-icon-arrow-down"></i
+            ></span>
+            <div style="margin-left: -24px; margin-top: 8px" v-if="hide">
+              <span>是否生成凭证</span>
+              <el-select
+                v-model="value"
+                placeholder="请选择"
+                style="width: 152px; margin-left: 8px"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <span style="margin-left: 33px">当前流程节点</span>
+              <el-select
+                v-model="value"
+                placeholder="请选择"
+                style="width: 152px; margin-left: 8px"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <span style="margin-left: 56px">申请时间</span>
+              <el-date-picker
+                v-model="value"
+                placeholder="选择日期"
+                style="margin-left: 8px"
+              ></el-date-picker>
+              <button
+                class="btn"
+                style="margin-left: 8px; background: #2d6dcc; color: #fff"
+              >
+                查询
+              </button>
+              <button class="btn">重置</button>
+              <span
+                style="margin-left: 8px; color: #2d6dcc; cursor: pointer"
+                @click="fold"
+              >
+                高级<i class="el-icon-arrow-up"></i
+              ></span>
+            </div>
           </div>
         </div>
-        <button
-          class="newBtn"
-          @click="newBtn"
-          style="background: #2d6dcc; color: #fff; cursor: pointer"
-        >
-          新建
-        </button>
-        <button class="btn">删除</button>
-        <button class="btn">导出</button>
-          <!-- 弹框内容  -->
-        <Dialog :visible.sync="visible" ref="child"></Dialog>
+        <button class="newBtn" @click="newBtn">导出</button>
+        <!-- <button class="btn">删除</button>
+        <button class="btn">导出</button> -->
         <el-table
           ref="multipleTable"
           :data="tableData"
           tooltip-effect="dark"
           style="width: 100%"
           max-height="580"
-          border
-          @selection-change="handleSelectionChange"
+          stripe
+          :header-cell-style="{ 'border-right': '1px solid #d9d9d9' }"
         >
-          <el-table-column align="center">
-            <template slot-scope="scope">
-              {{ scope.$index + 1 }}
-            </template>
-          </el-table-column>
-           <el-table-column
-            label="操作"
-            width="170"
-            align="center"
-          >
-            <template slot-scope="scope">
-              <el-button type="text" size="small" @click="handleEdit"
-                >查看</el-button
-              >
-              <el-button type="text" size="small" @click="handleEdit"
-                >编辑</el-button
-              >
-              <el-button
-                type="text"
-                size="small"
-                @click.native.prevent="deleteRow(scope.$index, tableData)"
-                >删除</el-button
-              >
-              <el-button type="text" size="small">流程图</el-button>
-            </template>
-          </el-table-column>
+          <el-table-column type="selection"></el-table-column>
           <el-table-column
             v-for="item in tableHeader"
             :key="item.label"
@@ -140,6 +142,18 @@
             align="center"
             :show-overflow-tooltip="true"
           >
+          </el-table-column>
+          <el-table-column
+            fixed="right"
+            label="操作"
+            width="170"
+            align="center"
+          >
+            <template>
+              <el-button type="text" size="small">审批</el-button>
+              <el-button type="text" size="small">转交</el-button>
+              <el-button type="text" size="small">生成凭证</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -153,20 +167,20 @@
       >
       </el-pagination>
     </el-card>
-    <newBxsq v-if="childShow"></newBxsq>
+    <Rcbx v-if="childShow"></Rcbx>
   </div>
 </template>
 
 <script>
-import newBxsq from "@/views/Layout/Content/DeclareManage/newBxsq.vue";
-import Dialog from "@/components/Dialog.vue";
+import Rcbx from "../../DeclareManage/DailyApply/component/Rcbx.vue";
 export default {
   data() {
     return {
       currentIndex: [],
       homeShow: true,
       childShow: false,
-      isShow: false,
+      isShow: true,
+      hide: false,
       value: "",
       options: [
         {
@@ -178,37 +192,95 @@ export default {
       pageSize: 5,
       tableData: [
         {
-          date: "2022/5/19",
-          num: "202205190005",
-          class: "'双高计划'办公室",
-          money: "360.00",
-          desc: "报销1",
-          advancer: "测院领导",
-          declarant: "蔡其松",
-          operator: "蔡其松",
+          progress: "0%",
+          number: "",
+          date: "2022-09-27 21:11:09",
+          num: "14480048",
+          class: "工会办公室",
+          money: "20000.00",
+          desc: "摘要摘要摘要摘要摘要",
+          advancer: "胡湾",
+          declarant: "陈晨",
+          operator: "乔伊",
           status: "进行中",
-          person: "李演示",
+          person: "汤君",
           document: "进行中",
+          now: "财务稽查",
           manage: "审批 转交 生成凭证",
         },
         {
-          date: "2022/4/24",
-          num: "202204240002",
+          progress: "70%",
+          number: "14480049",
+          date: "2022-09-27 21:11:09",
+          num: "14480049",
           class: "财务处",
-          money: "6140.00",
-          desc: "出差",
-          advancer: "曹演示",
-          declarant: "蔡其松",
-          operator: "蔡其松",
+          money: "20000.00",
+          desc: "摘要摘要摘要摘要摘要",
+          advancer: "胡湾",
+          declarant: "陈晨",
+          operator: "乔伊",
           status: "进行中",
-          person: "陈演示",
+          person: "汤君",
           document: "进行中",
           now: "单位领导",
           manage: "审批 转交 生成凭证",
         },
+        {
+          progress: "70%",
+          number: "144800411",
+          date: "2022-09-27 21:11:09",
+          num: "14480048",
+          class: "工会办公室",
+          money: "20000.00",
+          desc: "摘要摘要摘要摘要摘要",
+          advancer: "胡湾",
+          declarant: "陈晨",
+          operator: "乔伊",
+          status: "进行中",
+          person: "汤君",
+          document: "进行中",
+          now: "财务稽查",
+          manage: "审批 转交 生成凭证",
+        },
+        {
+          progress: "100%",
+          number: "",
+          date: "2022-09-27 21:11:09",
+          num: "144800441",
+          class: "财务处",
+          money: "20000.00",
+          desc: "摘要摘要摘要摘要摘要",
+          advancer: "胡湾",
+          declarant: "陈晨",
+          operator: "乔伊",
+          status: "进行中",
+          person: "汤君",
+          document: "进行中",
+          now: "单位领导",
+          manage: "审批 转交 生成凭证",
+        },
+        {
+          progress: "70%",
+          number: "",
+          date: "2022-09-27 21:11:09",
+          num: "14480043",
+          class: "工会办公室",
+          money: "20000.00",
+          desc: "摘要摘要摘要摘要摘要",
+          advancer: "胡湾",
+          declarant: "陈晨",
+          operator: "乔伊",
+          status: "进行中",
+          person: "汤君",
+          document: "进行中",
+          now: "财务稽查",
+          manage: "审批 转交 生成凭证",
+        },
       ],
       tableHeader: [
-        { label: "日期", value: "date" },
+        { label: "进度", value: "progress" },
+        { label: "凭证编号", value: "number" },
+        { label: "申请日期", value: "date" },
         { label: "单号", value: "num" },
         { label: "部门", value: "class" },
         { label: "金额", value: "money" },
@@ -219,15 +291,23 @@ export default {
         { label: "审批状态", value: "status" },
         { label: "待批人", value: "person" },
         { label: "单据状态", value: "document" },
-        { label: "凭证编号", value: "number" },
+        { label: "当前状态", value: "now" },
       ],
-      status: ["全部", "未提交", "进行中", "退回", "已完成", "逾期"],
+      status: ["全部", "已完成", "进行中", "绿色通道", "系统冻结", "临时冻结"],
     };
   },
   methods: {
     newBtn() {
       this.homeShow = !this.homeShow;
       this.childShow = !this.childShow;
+    },
+    spread() {
+      this.isShow = !this.isShow;
+      this.hide = !this.hide;
+    },
+    fold() {
+      this.isShow = true;
+      this.hide = false;
     },
     check(index) {
       if (this.currentIndex.indexOf(index) == -1) {
@@ -236,19 +316,9 @@ export default {
         this.currentIndex.splice(this.currentIndex.indexOf(index), 1);
       }
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
-    deleteRow(index, rows) {
-      rows.splice(index, 1);
-    },
-    handleEdit() {
-      this.$refs.child.handleEdit(); //直接访问子组件方法,用ref拿子组件方法
-    },
   },
   components: {
-    newBxsq,
-    Dialog
+    Rcbx,
   },
 };
 </script>
@@ -286,10 +356,10 @@ export default {
 .tableStyle::before {
   width: 0;
 }
-// //设置表的外边框
-// .el-table {
-//   border: 1px solid #ccc;
-// }
+//设置表的外边框
+.el-table {
+  border: 1px solid #ccc;
+}
 .wrap {
   font-size: 12px;
   .nav {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card style="margin-top: 8px; margin-left: -8px">
+    <el-card style="margin-top: 8px; margin-left: -8px" v-if="homeShow">
       <div class="wrap">
         <div style="margin-left: 64px">
           <div class="nav">
@@ -81,21 +81,16 @@
             <button class="btn">高级查询</button>
           </div>
         </div>
-        <button class="btn">新增</button>
+        <button class="btn" @click="btn">新增</button>
         <el-table
           ref="multipleTable"
           :data="tableData"
           tooltip-effect="dark"
           style="width: 100%"
+          max-height="580"
           border
-          stripe
           @selection-change="handleSelectionChange"
         >
-          <el-table-column align="center">
-            <template slot-scope="scope">
-              {{ scope.$index + 1 }}
-            </template>
-          </el-table-column>
           <el-table-column
             v-for="item in tableHeader"
             :key="item.label"
@@ -105,31 +100,20 @@
             :show-overflow-tooltip="true"
           >
           </el-table-column>
-          <el-table-column
-            fixed="right"
-            label="操作"
-            width="170"
-            align="center"
-          >
-            <template>
-              <el-button type="text" size="small">查看</el-button>
-              <el-button type="text" size="small">编辑</el-button>
-              <el-button type="text" size="small">删除</el-button>
-              <el-button type="text" size="small">流程图</el-button>
-            </template>
-          </el-table-column>
         </el-table>
       </div>
     </el-card>
+     <StepPage v-if="childShow"></StepPage>
   </div>
 </template>
 
 <script>
-</script>
-<script>
+import StepPage from '../StepPage.vue'
 export default {
   data() {
     return {
+      homeShow: true,
+      childShow: false,
       currentIndex: [],
       isShow: true,
       value: "",
@@ -141,173 +125,17 @@ export default {
       ],
       currentPage: 1,
       pageSize: 5,
-      tableData: [
-        {
-          date: "2022-10-17",
-          num: "202210170001",
-          class: "机械工程学院",
-          cause: "测试借款",
-          money: "500.00",
-          advancer: "1001",
-          declarant: "测申报 ",
-          status: "进行中",
-          person: "测单位领导",
-          document: "进行中",
-          now: "单位领导",
-        },
-        {
-          date: "2022-10-17",
-          num: "202210170002",
-          class: "机械工程学院",
-          cause: "测试借款",
-          money: "200.00",
-          advancer: "1001",
-          declarant: "测申报",
-          status: "进行中",
-          person: "测单位领导",
-          document: "进行中",
-          now: "单位领导",
-        },
-        {
-          date: "2022-09-19",
-          num: "202209190001",
-          class: "机械工程学院",
-          cause: "借差旅费",
-          money: "1500.00",
-          advancer: "000",
-          declarant: "测申报",
-          status: "进行中",
-          person: "测记账会计",
-          document: "进行中",
-          now: "记账会计",
-        },
-        {
-          date: "2022-05-19",
-          num: "202205190001",
-          class: "'双高计划'办公室",
-          cause: "报销",
-          money: "500.00",
-          advancer: "1001",
-          declarant: "陈演示",
-          status: "进行中",
-          person: "陈演示",
-          document: "进行中",
-          now: "单位领导",
-        },
-        {
-          date: "2022-04-25",
-          num: "202204250001",
-          class: "机械工程学院",
-          cause: "因事借款",
-          money: "300.00",
-          advancer: "1001",
-          declarant: "测申报",
-          status: "进行中",
-          person: "测单位领导",
-          document: "进行中",
-          now: "单位领导",
-        },
-        {
-          date: "2022-04-24",
-          num: "202204240003",
-          class: "机械工程学院",
-          cause: "培训会议",
-          money: "50.00",
-          advancer: "1001",
-          declarant: "测申报",
-          status: "进行中",
-          person: "测单位领导，武演示",
-          document: "进行中",
-          now: "单位审核",
-        },
-        {
-          date: "2022-04-24",
-          num: "202204240005",
-          class: "机械工程学院",
-          cause: "出差2",
-          money: "70.00",
-          advancer: "1004",
-          declarant: "测申报",
-          status: "进行中",
-          person: "测财务稽查，梅演示",
-          document: "进行中",
-          now: "财务稽查",
-        },
-        {
-          date: "2022-04-24",
-          num: "202204240006",
-          class: "机械工程学院",
-          cause: "出差2",
-          money: "60.00",
-          advancer: "1001",
-          declarant: "测单位领导",
-          status: "进行中",
-          person: "测财务稽查，梅演示",
-          document: "进行中",
-          now: "财务稽查",
-        },
-        {
-          date: "2022-04-24",
-          num: "202204240007",
-          class: "机械工程学院",
-          cause: "出差2",
-          money: "1000.00",
-          advancer: "1002",
-          declarant: "测申报",
-          status: "进行中",
-          person: "测单位领导",
-          document: "进行中",
-          now: "单位领导",
-        },
-        {
-          date: "2022-03-23",
-          num: "202203230001",
-          class: "机械工程学院",
-          cause: "借钱1",
-          money: "500.00",
-          advancer: "1002",
-          declarant: "测单位领导",
-          status: "进行中",
-          person: "测单位领导，武演示",
-          document: "进行中",
-          now: "单位审核",
-        },
-        {
-          date: "2022-03-17",
-          num: "202203170001",
-          class: "机械工程学院",
-          cause: "借钱",
-          money: "1000.00",
-          advancer: "1002",
-          declarant: "测单位领导",
-          status: "进行中",
-          person: "测单位领导，武演示",
-          document: "进行中",
-          now: "单位审核",
-        },
-        {
-          date: "2022-02-18",
-          num: "202202180003",
-          class: "机械工程学院",
-          cause: "特斯塔",
-          money: "1.00",
-          advancer: "1004",
-          declarant: "测申报",
-          status: "进行中",
-          person: "测单位领导，武演示",
-          document: "进行中",
-          now: "单位审核",
-        },
-      ],
+      tableData: [],
       tableHeader: [
         { label: "凭证编号", value: "number" },
         { label: "日期", value: "date" },
         { label: "单号", value: "num" },
-        { label: "部门", value: "class" },
-        { label: "借支事由", value: "cause" },
+        { label: "领款部门", value: "class" },
+        { label: "领款事由", value: "cause" },
         { label: "金额", value: "money" },
-        { label: "借支人", value: "advancer" },
+        { label: "领款人", value: "payee" },
         { label: "申报人", value: "declarant" },
+        { label: "经办人", value: "operator" },
         { label: "审批状态", value: "status" },
         { label: "待批人", value: "person" },
         { label: "单据状态", value: "document" },
@@ -357,8 +185,14 @@ export default {
         this.currentIndex.splice(this.currentIndex.indexOf(index), 1);
       }
     },
+    btn() {
+      this.homeShow = !this.homeShow;
+      this.childShow = !this.childShow;
+    },
   },
-  components: {},
+  components: {
+    StepPage
+  },
 };
 </script>
 
@@ -381,7 +215,6 @@ export default {
   color: #333333;
   font-size: 14px;
 }
-
 .wrap {
   font-size: 12px;
   .nav {
@@ -424,17 +257,18 @@ export default {
     }
   }
 }
+
 .btn {
   margin-bottom: 8px;
   height: 28px;
-  background: #3bb4f2;
+  background: #2d6dcc;
   border: 1px solid #ddd;
   color: #fff;
   margin-right: 8px;
   font-size: 12px;
   margin-left: 8px;
   padding: 0 12px 0 12px;
-  border-radius: 5px;
+  // border-radius: 5px;
 }
 </style>
 <style>

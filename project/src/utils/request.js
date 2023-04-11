@@ -23,10 +23,17 @@ service.interceptors.request.use(config => {
   // }
   // console.log(config);
 
+  // if (config.data) {
+  //   config.data = {
+  //     ...config.data,
+  //     // Token:'0E2665F6A9C5A90A5D226A2D00BB5E94',
+  //     Appid:'312502',
+  //   }
+  // }
+
   if(config.data){
     config.data=qs.stringify(config.data);
   }
-
   return config;
 }, error => {
   return Promise.reject(error);

@@ -17,32 +17,24 @@
           </el-steps>
         </div>
         <!-- 填写单据 -->
-        <bxd v-show="active == '1'"></bxd>
+        <one v-show="active == '1'"></one>
         <!-- 上传附件 -->
-        <fj v-show="active == '2'"></fj>
-        <!-- 冲销借款 -->
-        <cxjk v-show="active == '3'"></cxjk>
+        <two v-show="active == '2'"></two>
       </div>
       <div class="bottom">
-        <el-button type="primary" @click="open">项目余额</el-button>
-        <el-button type="primary" @click="next">下一步</el-button>
+        <el-button type="primary" @click="next">保存进入下一步</el-button>
       </div>
-      <projectDialog ref="child"></projectDialog>
     </el-card>
   </div>
 </template>
-
-
 <script>
-import bxd from "@/views/Layout/Content/DeclareManage/FormDetail/bxd.vue";
-import fj from "@/views/Layout/Content/DeclareManage/FormDetail/fj.vue";
-import cxjk from "@/views/Layout/Content/DeclareManage/FormDetail/cxjk.vue";
-import projectDialog from '@/components/projectDialog.vue'
+import one from "./FormDetail/one.vue";
+import two from "./FormDetail/two.vue";
 export default {
   data() {
     return {
       active: 1,
-      stepTitle: ["填写单据", "上传附件", "冲销借款"],
+      stepTitle: ["填写借支报销单", "上传附件"],
     };
   },
   methods: {
@@ -50,15 +42,10 @@ export default {
     next() {
       this.active++;
     },
-    open() {
-      this.$refs.child.open();
-    },
   },
   components: {
-    bxd,
-    fj,
-    cxjk,
-    projectDialog
+    one,
+    two,
   },
 };
 </script>

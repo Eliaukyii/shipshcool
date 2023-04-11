@@ -25,17 +25,14 @@
           <span class="title">经费部门：</span><span class="text">请选择</span>
         </td>
         <td>
-          <span class="title">报销时间：</span
-          ><span class="write">2022-10-03</span>
-          <i
-            class="el-icon-date"
-            style="
-              color: #2d6dcc;
-              float: right;
-              margin-top: 12px;
-              margin-right: 10px;
-            "
-          ></i>
+          <span class="title">报销时间：</span>
+          <el-date-picker
+            v-model="applyTime"
+            type="date"
+            :clearable="false"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
         </td>
         <td>&nbsp;</td>
       </tr>
@@ -95,28 +92,36 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      applyTime: "",
+    };
   },
   methods: {
-    addRow(){
-      var table = document.getElementById("myTable")
-      var row = table.insertRow(4); //在第四行后面增加新行
-      
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(1);
-      var cell3 = row.insertCell(2);
-      cell1.innerHTML = "<input type='text' placeholder='请输入' />";
-      cell2.innerHTML = "<input type='text' placeholder='请输入'/>";
-      cell3.innerHTML = "<input type='text' placeholder='请输入'/>";
+    addRow() {
+      var Tr=document.getElementById("Tr")
+      var newRow = document.createElement('tr')
+      for(var i=0;i<Tr.cells.length;i++){
+        var newCell=document.createElement("td")
+        newCell.innerHTML=Tr.cells[i].innerHTML
+        newRow.appendChild(newCell)
+      }
+    document.getElementById("myTable").insertBefore(newRow,Tr)
+      // document.getElementById("myTable").appendChild(newRow)
 
-      cell1.style.cssText="";
-      cell2.style.cssText="";
-      cell3.style.cssText="";
+
+      // var table = document.getElementById("myTable");
+      // var row = table.insertRow(4); //在第四行后面增加新行
+      // var cell1 = row.insertCell(0);
+      // var cell2 = row.insertCell(1);
+      // var cell3 = row.insertCell(2);
+      // cell1.innerHTML = "<input type='text' placeholder='请输入'/>";
+      // cell2.innerHTML = "<input type='text' placeholder='请输入'/>";
+      // cell3.innerHTML = "<input type='text' placeholder='请输入'/>";
 
     },
-    deleteRow(){
+    deleteRow() {
       var table = document.getElementById("myTable");
-    console.log(table);
+      console.log(table);
     },
     desc() {
       this.$router.push("/zygl");
@@ -127,9 +132,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 input::-webkit-input-placeholder {
-    padding-left:4px;
+  padding-left: 4px;
+}
+/deep/ .el-input__inner {
+  border: 0;
+}
+/deep/ .el-input__prefix {
+  color: #2d6dcc;
+  right: -340px !important;
+  cursor: pointer;
 }
 .headline {
   font-size: 28px;

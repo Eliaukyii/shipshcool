@@ -18,7 +18,7 @@
             </div>
           </div>
           <div class="choice" style="margin-top: 16px">
-            <span>申报部门</span>
+            <span>报销部门</span>
             <el-select
               v-model="value"
               placeholder="请选择"
@@ -32,7 +32,7 @@
               >
               </el-option>
             </el-select>
-            <span style="margin-left: 56px">申报项目</span>
+            <span style="margin-left: 56px">报销项目</span>
             <el-select
               v-model="value"
               placeholder="请选择"
@@ -63,73 +63,36 @@
               >
               </el-option>
             </el-select>
-            <span
-              style="margin-left: 8px; color: #2d6dcc; cursor: pointer"
-              v-if="isShow"
-              @click="spread"
+            <button
+              class="btn"
+              style="margin-left: 8px; background: #2d6dcc; color: #fff"
             >
-              高级<i class="el-icon-arrow-down"></i
+              查询
+            </button>
+            <button class="btn">重置</button>
+            <span style="margin-left: 8px; color: #2d6dcc; cursor: pointer"
+              >高级 <i class="el-icon-arrow-down"></i
             ></span>
-            <div style="margin-left: -24px; margin-top: 8px" v-if="hide">
-              <span>是否生成凭证</span>
-              <el-select
-                v-model="value"
-                placeholder="请选择"
-                style="width: 152px; margin-left: 8px"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <span style="margin-left: 33px">当前流程节点</span>
-              <el-select
-                v-model="value"
-                placeholder="请选择"
-                style="width: 152px; margin-left: 8px"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-              <span style="margin-left: 56px">申请时间</span>
-              <el-date-picker
-                v-model="value"
-                placeholder="选择日期"
-                style="margin-left: 8px"
-              ></el-date-picker>
-              <button
-                class="btn"
-                style="margin-left: 8px; background: #2d6dcc; color: #fff"
-              >
-                查询
-              </button>
-              <button class="btn">重置</button>
-              <span
-                style="margin-left: 8px; color: #2d6dcc; cursor: pointer"
-                @click="fold"
-              >
-                高级<i class="el-icon-arrow-up"></i
-              ></span>
-            </div>
           </div>
         </div>
-        <button class="newBtn" @click="newBtn">导出</button>
-        <!-- <button class="btn">删除</button>
-        <button class="btn">导出</button> -->
+        <button
+          class="newBtn"
+          @click="newBtn"
+          style="background: #2d6dcc; color: #fff; cursor: pointer"
+        >
+          新建
+        </button>
+        <button class="btn" @click="deleteSelectRows">删除</button>
+        <button class="btn">导出</button>
+         <!-- 弹框内容  -->
+        <Dialog :visible.sync="visible" ref="child"></Dialog>
         <el-table
           ref="multipleTable"
-          :data="tableData"
+          :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
           tooltip-effect="dark"
           style="width: 100%"
           max-height="580"
+          @selection-change="handleSelectionChange"
           stripe
           :header-cell-style="{ 'border-right': '1px solid #d9d9d9' }"
         >
@@ -149,38 +112,41 @@
             width="170"
             align="center"
           >
-            <template>
-              <el-button type="text" size="small">审批</el-button>
-              <el-button type="text" size="small">转交</el-button>
-              <el-button type="text" size="small">生成凭证</el-button>
+            <template slot-scope="scope">
+              <el-button type="text" size="small"  @click="handleEdit">编辑</el-button>
+              <el-button type="text" size="small"  @click.native.prevent="deleteRow(scope.$index, tableData)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
+      <!-- 分页器 -->
       <el-pagination
         style="margin-top: 12px"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[20, 40, 60]"
+        :page-sizes="[1,5,10,20]"
         :page-size="pageSize"
         layout="->,total, prev, pager, next, sizes, jumper"
-        :total="133"
+        :total="tableData.length"
       >
       </el-pagination>
     </el-card>
-    <Bxsq v-if="childShow"></Bxsq>
+    <StepPage v-if="childShow"></StepPage>
   </div>
 </template>
 
 <script>
-import Bxsq from "../DeclareManage/Bxsq.vue";
+import StepPage from "../StepPage.vue";
+import Dialog from '@/components/Dialog.vue';
 export default {
   data() {
     return {
+      visible: true,
       currentIndex: [],
       homeShow: true,
       childShow: false,
-      isShow: true,
-      hide: false,
+      isShow: false,
       value: "",
       options: [
         {
@@ -189,9 +155,10 @@ export default {
         },
       ],
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 10,
       tableData: [
         {
+          id:0,
           progress: "0%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -206,9 +173,10 @@ export default {
           person: "汤君",
           document: "进行中",
           now: "财务稽查",
-          manage: "审批 转交 生成凭证",
+          manage: "编辑 删除",
         },
         {
+          id:1,
           progress: "70%",
           number: "14480049",
           date: "2022-09-27 21:11:09",
@@ -223,9 +191,10 @@ export default {
           person: "汤君",
           document: "进行中",
           now: "单位领导",
-          manage: "审批 转交 生成凭证",
+          manage: "编辑 删除",
         },
         {
+          id:2,
           progress: "70%",
           number: "144800411",
           date: "2022-09-27 21:11:09",
@@ -240,9 +209,10 @@ export default {
           person: "汤君",
           document: "进行中",
           now: "财务稽查",
-          manage: "审批 转交 生成凭证",
+          manage: "编辑 删除",
         },
         {
+          id:3,
           progress: "100%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -253,13 +223,32 @@ export default {
           advancer: "胡湾",
           declarant: "陈晨",
           operator: "乔伊",
-          status: "进行中",
+          status: "已完成",
           person: "汤君",
           document: "进行中",
           now: "单位领导",
-          manage: "审批 转交 生成凭证",
+          manage: "编辑 删除",
         },
         {
+          id:4,
+          progress: "100%",
+          number: "",
+          date: "2022-09-27 21:11:09",
+          num: "14480043",
+          class: "工会办公室",
+          money: "20000.00",
+          desc: "摘要摘要摘要摘要摘要",
+          advancer: "胡湾",
+          declarant: "陈晨",
+          operator: "乔伊",
+          status: "已完成",
+          person: "汤君",
+          document: "进行中",
+          now: "财务稽查",
+          manage: "编辑 删除",
+        },
+        {
+          id:5,
           progress: "70%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -274,9 +263,10 @@ export default {
           person: "汤君",
           document: "进行中",
           now: "财务稽查",
-          manage: "审批 转交 生成凭证",
+          manage: "编辑 删除",
         },
         {
+          id:6,
           progress: "70%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -291,9 +281,10 @@ export default {
           person: "汤君",
           document: "进行中",
           now: "财务稽查",
-          manage: "审批 转交 生成凭证",
+          manage: "编辑 删除",
         },
         {
+          id:7,
           progress: "70%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -308,9 +299,10 @@ export default {
           person: "汤君",
           document: "进行中",
           now: "财务稽查",
-          manage: "审批 转交 生成凭证",
+          manage: "编辑 删除",
         },
         {
+          id:8,
           progress: "70%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -325,29 +317,11 @@ export default {
           person: "汤君",
           document: "进行中",
           now: "财务稽查",
-          manage: "审批 转交 生成凭证",
-        },
-        {
-          progress: "70%",
-          number: "",
-          date: "2022-09-27 21:11:09",
-          num: "14480043",
-          class: "工会办公室",
-          money: "20000.00",
-          desc: "摘要摘要摘要摘要摘要",
-          advancer: "胡湾",
-          declarant: "陈晨",
-          operator: "乔伊",
-          status: "进行中",
-          person: "汤君",
-          document: "进行中",
-          now: "财务稽查",
-          manage: "审批 转交 生成凭证",
+          manage: "编辑 删除",
         },
       ],
       tableHeader: [
         { label: "进度", value: "progress" },
-        { label: "凭证编号", value: "number" },
         { label: "申请日期", value: "date" },
         { label: "单号", value: "num" },
         { label: "部门", value: "class" },
@@ -358,24 +332,34 @@ export default {
         { label: "经办人", value: "operator" },
         { label: "审批状态", value: "status" },
         { label: "待批人", value: "person" },
-        { label: "单据状态", value: "document" },
-        { label: "当前状态", value: "now" },
       ],
-      status: ["全部", "已完成", "进行中", "绿色通道", "系统冻结", "临时冻结"],
+      status: [
+        "全部",
+        "已完成",
+        "进行中",
+        "未提交",
+        "退回",
+        "逾期",
+        "绿色通道",
+        "系统冻结",
+        "临时冻结",
+      ],
+      selectedRows: [], // 选中的行
+      filterText:''
     };
+  },
+  mounted(){
   },
   methods: {
     newBtn() {
       this.homeShow = !this.homeShow;
       this.childShow = !this.childShow;
     },
-    spread() {
-      this.isShow = !this.isShow;
-      this.hide = !this.hide;
+    deleteRow(index, rows) {
+    rows.splice(index, 1);
     },
-    fold() {
-      this.isShow = true;
-      this.hide = false;
+    handleEdit() {
+      this.$refs.child.handleEdit(); //直接访问子组件方法,用ref拿子组件方法
     },
     check(index) {
       if (this.currentIndex.indexOf(index) == -1) {
@@ -384,9 +368,29 @@ export default {
         this.currentIndex.splice(this.currentIndex.indexOf(index), 1);
       }
     },
+   //每页条数改变时触发 选择一页显示多少行
+    handleSizeChange(val){
+      console.log(`每页 ${val} 条`);
+      this.currentPage=1;
+      this.pageSize=val;
+    },
+     //当前页改变时触发 跳转其他页
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage=val;
+    },
+    deleteSelectRows(){
+      const selection = this.$refs.multipleTable.selection; // 获取选中的行
+      const ids=selection.map(item=>item.id); // 获取选中行的id数组
+      this.tableData=this.tableData.filter(item=>!ids.includes(item.id)) //过滤出未选中行的数据
+    },
+    handleSelectionChange(selection){
+      this.selectedRows=selection
+    },
   },
   components: {
-    Bxsq,
+    StepPage,
+    Dialog,
   },
 };
 </script>
