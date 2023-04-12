@@ -5,7 +5,7 @@ module.exports = {
   devServer:{
     open: true,     //设置自动启动浏览器
     // host: '192.168.101.48',
-    host:'192.168.2.100',
+    host:'192.168.2.105',
     port: 8080,
     proxy:{
       '/api':{

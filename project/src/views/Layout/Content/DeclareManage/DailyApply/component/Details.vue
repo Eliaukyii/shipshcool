@@ -21,10 +21,10 @@
 </template>
 
 <script>
-import Bxdxq from "./DeclareManage/DailyApply/component/fjmk/Bxdxq.vue";
-import Hkxx from "./DeclareManage/DailyApply/component/fjmk/Hkxx.vue";
-import Cljl from "./DeclareManage/DailyApply/component/fjmk/Cljl.vue";
-import Lct from "./DeclareManage/DailyApply/component/fjmk/Lct.vue";
+import Bxdxq from "./fjmk/Bxdxq.vue";
+import Hkxx from "./fjmk/Hkxx.vue";
+import Cljl from "./fjmk/Cljl.vue";
+import Lct from "./fjmk/Lct.vue";
 export default {
   name:'Fjmk',
   components: {

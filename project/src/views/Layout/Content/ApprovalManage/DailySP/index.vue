@@ -65,12 +65,11 @@
             </el-select>
             <span
               style="margin-left: 8px; color: #2d6dcc; cursor: pointer"
-              v-if="isShow"
-              @click="spread"
-            >
-              高级<i class="el-icon-arrow-down"></i
+              @click="toggleShow"
+              v-show="!isShow"
+            >高级<i class="el-icon-arrow-down"></i
             ></span>
-            <div style="margin-left: -24px; margin-top: 8px" v-if="hide">
+            <div style="margin-left: -24px; margin-top: 8px" v-show="isShow">
               <span>是否生成凭证</span>
               <el-select
                 v-model="value"
@@ -113,9 +112,7 @@
               </button>
               <button class="btn">重置</button>
               <span
-                style="margin-left: 8px; color: #2d6dcc; cursor: pointer"
-                @click="fold"
-              >
+                style="margin-left: 8px; color: #2d6dcc; cursor: pointer" >
                 高级<i class="el-icon-arrow-up"></i
               ></span>
             </div>
@@ -150,7 +147,7 @@
             align="center"
           >
             <template>
-              <el-button type="text" size="small">审批</el-button>
+              <el-button type="text" size="small" @click="approve">审批</el-button>
               <el-button type="text" size="small">转交</el-button>
               <el-button type="text" size="small">生成凭证</el-button>
             </template>
@@ -179,8 +176,7 @@ export default {
       currentIndex: [],
       homeShow: true,
       childShow: false,
-      isShow: true,
-      hide: false,
+      isShow:false,
       value: "",
       options: [
         {
@@ -369,13 +365,17 @@ export default {
       this.homeShow = !this.homeShow;
       this.childShow = !this.childShow;
     },
-    spread() {
-      this.isShow = !this.isShow;
-      this.hide = !this.hide;
-    },
-    fold() {
-      this.isShow = true;
-      this.hide = false;
+    // spread() {
+    //   this.isShow = !this.isShow;
+    //   this.hide = !this.hide;
+    // },
+    // fold() {
+    //   this.isShow = true;
+    //   this.hide = false;
+    // },
+
+    toggleShow(){
+     this.isShow=!this.isShow
     },
     check(index) {
       if (this.currentIndex.indexOf(index) == -1) {
@@ -384,6 +384,10 @@ export default {
         this.currentIndex.splice(this.currentIndex.indexOf(index), 1);
       }
     },
+    //审批
+    approve(){
+     this.$router.push('/rcbxsp')
+    }
   },
   components: {
     Rcbx,

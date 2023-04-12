@@ -2,8 +2,7 @@
   <div class="tab">
     <span class="tabbar">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item v-for="item in breadCrumbList" :key="item.Menu_ID">
+            <el-breadcrumb-item v-for="(item,index) in $route.matched" :key="index" :to="{ path: '/home' }">
                 {{item.name}}
             </el-breadcrumb-item>
         </el-breadcrumb>
@@ -21,12 +20,10 @@ export default {
     };
   },
   created() {
-   
+    
   },
   computed:{
-    breadCrumbList(){
-      return this.$route.matched
-    }
+    
   },
   methods: {
     

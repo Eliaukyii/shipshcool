@@ -2,7 +2,7 @@
   <div class="formAccount">
     <el-card style="margin-top: 8px; margin-left: -8px">
       <div class="top">
-        <div id="Design">
+        <div>
           <el-steps
             :active="active"
             :space="200"
@@ -41,6 +41,9 @@ export default {
     // 步骤条下一步
     next() {
       this.active++;
+       if(this.active>3){
+        this.$router.push('/clDetail')
+      }
     },
   },
   components: {
@@ -51,17 +54,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
-::v-deep .el-step.is-center .el-step__line {
-  left: 60%;
-  right: -40%;
-}
-::v-deep .el-step__title.is-success {
-  color: #2d6dcc;
-}
-::v-deep .el-step__head.is-success {
-  color: #2d6dcc;
-  border-color: #2d6dcc;
-}
+// ::v-deep .el-step.is-center .el-step__line {
+//   left: 60%;
+//   right: -40%;
+// }
+// ::v-deep .el-step__title.is-success {
+//   color: #2d6dcc;
+// }
+// ::v-deep .el-step__head.is-success {
+//   color: #2d6dcc;
+//   border-color: #2d6dcc;
+// }
+
+// ::v-deep .el-step__icon.is-text{
+//   border: 1px;
+// }
 .formAccount {
   .el-steps {
     justify-content: center;

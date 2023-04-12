@@ -1,7 +1,21 @@
 <template>
   <div>
-    <p class="text">武汉船舶职业技术学院经费报销单</p>
-    <table style="margin: 0 auto">
+    <table style="margin: 0 auto;width:65%;">
+      <tr>
+        <td colspan="3" style="text-align: center; border: 0">
+          <img
+            src="@/assets/images/fjmk/拒绝.png"
+            alt=""
+            style="transform: translate(10px, 15px)"
+          /><span class="headTitle">武汉船舶职业技术学院经费报销单</span>
+          <vue-barcode
+            :value="barcodeValue"
+            height="52"
+            width="1"
+            style="float: right"
+          />
+        </td>
+      </tr>
       <tr>
         <td colspan="3" style="border: 0">
           <i
@@ -18,7 +32,7 @@
       </tr>
       <tr>
         <td>
-          <span class="title">经费部门：</span><span class="text">请选择</span>
+          <span class="title">经费部门：</span><span class="write">机械工程学院</span>
         </td>
         <td>
           <span class="title">报销时间：</span
@@ -36,35 +50,23 @@
         </td>
       </tr>
       <tr>
-        <td><span class="text">请输入</span></td>
-        <td><span class="text">请选择</span></td>
-        <td>
-          <span class="text">请输入</span>
-        </td>
-      </tr>
-      <tr>
-        <td><span class="text">请输入</span></td>
-        <td><span class="text">请选择</span></td>
-        <td>
-          <span class="text">请输入</span>
-        </td>
-      </tr>
-      <tr>
-        <td><span class="text">请输入</span></td>
-        <td><span class="text">请选择</span></td>
-        <td>
-          <span class="text">请输入</span>
+        <td><span class="write">支出报销</span></td>
+        <td><span class="write">耗材费</span></td>
+        <td style="text-align:right;">
+          <span class="write">500.00</span>
         </td>
       </tr>
       <tr>
         <td colspan="2">
           <span class="title"
             >总金额（大写）：<span class="write"
-              >零元&nbsp;零角&nbsp;零分&nbsp;</span
+              >币&nbsp;伍佰&nbsp;零拾&nbsp;零元&nbsp;零角&nbsp;零分&nbsp;</span
             ></span
           >
         </td>
-        <td style="padding-left: 12px">0</td>
+        <td style="text-align:right;">
+          <span class="write">500.00</span>
+        </td>
       </tr>
       <tr>
         <td colspan="3"><span class="title">其它记载：</span></td>
@@ -106,7 +108,6 @@
         <template>
           <el-button type="text" size="small">存入网盘</el-button>
           <el-button type="text" size="small">下载</el-button>
-          <el-button type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -114,10 +115,12 @@
 </template>
 
 <script>
+import VueBarcode from "vue-barcode";
 export default {
   name: "Bxdxq",
   data() {
     return {
+      barcodeValue: "2023031000002",
       tableData: [
         {
           name: "111",
@@ -134,12 +137,15 @@ export default {
       ],
     };
   },
+  created() {},
   methods: {
     addTr() {
       console.log("111");
     },
   },
-  components: {},
+  components: {
+    VueBarcode,
+  },
 };
 </script>
 
@@ -156,7 +162,8 @@ export default {
 .el-table {
   border: 1px solid rgb(234, 232, 232);
 }
-.text {
+
+.headTitle {
   font-size: 28px;
   color: #333333;
   text-align: center;
@@ -175,11 +182,11 @@ export default {
 .wrap {
   margin-bottom: 8px;
   width: 400px;
-  height:28px;
+  height: 28px;
   margin-top: 30px;
   display: flex;
   align-items: center;
-  .line{
+  .line {
     background: #4686f2;
     width: 4px;
     height: 14px;
@@ -212,6 +219,7 @@ table {
       }
       .write {
         font-size: 12px;
+        padding: 8px;
       }
     }
   }

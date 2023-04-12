@@ -47,6 +47,9 @@ export default {
     // 步骤条下一步
     next() {
       this.active++;
+      if(this.active>3){
+        this.$router.push('/rcDetail')
+      }
     },
     open() {
       this.$refs.child.open();

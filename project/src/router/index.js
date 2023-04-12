@@ -8,9 +8,10 @@ const routes = [{
         component: ()=>import('../views/Main.vue'),
         name: '首页',
         redirect: '/login',
-        children: [{
+        children: [
+        {
             path: 'home',
-            name: 'home',
+            name: '首页',
             component: ()=>import('../views/Home.vue'),
         },
         // 申报管理
@@ -34,6 +35,17 @@ const routes = [{
             path: '/184727cc-1b9f-4788-a452-bc16987e10ad',
             component: () => import('@/views/Layout/Content/DeclareManage/PaymentApply/component/Wlfk.vue'),
         },
+        {
+            name: '日常报销单详情',
+            path: '/rcDetail',
+            component: () => import('@/views/Layout/Content/DeclareManage/DailyApply/component/Details.vue'),
+        },
+        {
+            name: '差旅报销单详情',
+            path: '/clDetail',
+            component: () => import('@/views/Layout/Content/DeclareManage/TravelApply/component/Detail.vue'),
+        },
+    
 
         //审批管理
         {
@@ -57,6 +69,16 @@ const routes = [{
             component: () => import('@/views/Layout/Content/ApprovalManage/PaymentSP/index.vue'),
         },
 
+        {
+            name: '日常报销审批',
+            path: '/rcbxsp',
+            component: () => import('@/views/Layout/Content/ApprovalManage/DailySP/dailySp.vue'),
+        },
+        {
+            name: '差旅报销审批',
+            path: '/clbxsp',
+            component: () => import('@/views/Layout/Content/ApprovalManage/TravelSP/travelSp.vue'),
+        },
 
 
 
