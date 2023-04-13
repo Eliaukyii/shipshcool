@@ -109,27 +109,27 @@ const routes = [{
         },
         {
             name: 'Gwbg',
-            path: '/gwbg',
+            path: '/201803100911003438',
             component: () => import('@/views/Layout/Content/Qxgl/gwbg.vue') //岗位变更
         },
         {
             name: 'Bmgl2',
-            path: '/bmgl2',
+            path: '/201602142242543567',
             component: () => import('@/views/Layout/Content/Qxgl/bmgl.vue') //部门管理
         },
         {
             name: 'Yhgl',
-            path: '/yhgl',
+            path: '/201602142242462112',
             component: () => import('@/views/Layout/Content/Qxgl/yhgl.vue') //用户管理
         },
         {
             name: 'Jslb',
-            path: '/jslb',
+            path: '/201602142244437712',
             component: () => import('@/views/Layout/Content/Qxgl/jslb.vue') //角色列表
         },
         {
             name: 'Jsqx',
-            path: '/jsqx',
+            path: '/201602142244583243',
             component: () => import('@/views/Layout/Content/Qxgl/jsqx.vue') //角色权限
         },
         {
