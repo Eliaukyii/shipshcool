@@ -40,18 +40,43 @@
           </div>
           <el-card>
             <el-table :data="list4" style="width: 100%">
-              <el-table-column label="申报类型" prop="PFI_Type" align="center"></el-table-column>
-              <el-table-column label="申请日期" prop="CreateDateStr" align="center"></el-table-column>
-              <el-table-column label="申请人" prop="PFI_UserID" align="center"></el-table-column>
-              <el-table-column label="单号" prop="PFI_Name" align="center"></el-table-column>
-              <el-table-column label="申请金额" prop="AI_Status" align="center"></el-table-column>
+              <el-table-column
+                label="申报类型"
+                prop="PFI_Type"
+                align="center"
+              ></el-table-column>
+              <el-table-column
+                label="申请日期"
+                prop="CreateDateStr"
+                align="center"
+              ></el-table-column>
+              <el-table-column
+                label="申请人"
+                prop="PFI_UserID"
+                align="center"
+              ></el-table-column>
+              <el-table-column
+                label="单号"
+                prop="PFI_Name"
+                align="center"
+              ></el-table-column>
+              <el-table-column
+                label="申请金额"
+                prop="AI_Status"
+                align="center"
+              ></el-table-column>
               <el-table-column label="摘要" prop="status" align="center">
                 <template slot-scope="scope">
-                   <div v-html="scope.row.status"></div>
+                  <div v-html="scope.row.status"></div>
                 </template>
               </el-table-column>
-              <el-table-column label="操作" fixed="right" width="80" align="center">
-                 <template>
+              <el-table-column
+                label="操作"
+                fixed="right"
+                width="80"
+                align="center"
+              >
+                <template>
                   <el-button type="text" size="small">审核</el-button>
                 </template>
               </el-table-column>
@@ -65,7 +90,12 @@
             <span class="right">查看全部</span>
           </div>
           <el-card style="margin-bottom: 52px">
-            <el-table :data="list3" height="250" style="width: 100%;" :show-header="false">
+            <el-table
+              :data="list3"
+              height="250"
+              style="width: 100%"
+              :show-header="false"
+            >
               <el-table-column prop="Froms" width="120">
                 <template slot-scope="scope">
                   <span
@@ -106,9 +136,13 @@
             <span class="right">查看全部</span>
           </div>
           <el-card>
-            <el-table :data="list2" style="width: 100%" :show-header="false" @row-click="rowClick">
-              <el-table-column prop="Titles">       
-              </el-table-column>
+            <el-table
+              :data="list2"
+              style="width: 100%"
+              :show-header="false"
+              @row-click="rowClick"
+            >
+              <el-table-column prop="Titles"> </el-table-column>
               <el-table-column
                 prop="CreateDate"
                 :formatter="formatTime"
@@ -126,10 +160,9 @@
 <script>
 import { WelComeFunc } from "@/api/index.js";
 
-import MainChildVue from './components/MainChild.vue';
+import MainChildVue from "./components/MainChild.vue";
 export default {
   data() {
-    let a = sessionStorage.getItem("Token");
     return {
       menuLists: [
         {
@@ -229,44 +262,29 @@ export default {
           value: "desc",
         },
       ],
-      Appid: "312502",
-      Token: a,
       active: "",
       Titles: "",
       CreateDate: [],
       toDoData: {
-        Appid: "312502",
-        Token: a,
         active: "List4",
       },
     };
   },
-  components:{
-    MainChildVue
+  components: {
+    MainChildVue,
   },
-  created() {
+  created() {},
+  mounted() {
+    this.getToDo();
     this.getInfo({
-      Appid: this.Appid,
-      Token: this.Token,
       active: "List2",
     });
     this.getPolicy({
-      Appid: this.Appid,
-      Token: this.Token,
       active: "List3",
     });
-
-    // this.getToDo({
-    //   Appid: this.Appid,
-    //   Token: this.Token,
-    //   active: "List4",
-    // });
-  },
-  mounted() {
-    this.getToDo()
   },
   methods: {
-    rowClick(row){
+    rowClick(row) {
       // console.log(row.Contents);
       this.$refs.child.rowClick(row.Contents);
     },
@@ -274,7 +292,7 @@ export default {
     formatTime(row, column) {
       let data = row[column.property];
       let dtime = new Date(data);
-      const year = dtime.getFullYear()
+      const year = dtime.getFullYear();
       let month = dtime.getMonth() + 1;
       if (month < 10) {
         month = "0" + month;
@@ -283,7 +301,7 @@ export default {
       if (day < 10) {
         day = "0" + day;
       }
-      return year+ '-' + month + "-" + day;
+      return year + "-" + month + "-" + day;
     },
 
     // 政策信息
@@ -306,20 +324,12 @@ export default {
 
     // 待办
     getToDo() {
-      // WelComeFunc(data).then((res) => {
-      //   if (res.status == 200) {
-      //     let list = JSON.parse(res.data.list);
-      //     let list4 = JSON.parse(list.msg);
-      //     console.log(list4);
-      //   }
-      // });
       WelComeFunc({ ...this.toDoData }).then((res) => {
         if (res.status == 200) {
-          // console.log(res);
           let list = JSON.parse(res.data.list);
           this.list4 = JSON.parse(list.msg);
         }
-      })
+      });
     },
   },
 };
@@ -423,12 +433,11 @@ export default {
   cursor: pointer;
 }
 
-/deep/.el-table td.el-table__cell{
+/deep/.el-table td.el-table__cell {
   border-bottom: 0;
 }
 
 /deep/.el-table th.el-table__cell.is-leaf {
-    border-bottom: 0;
+  border-bottom: 0;
 }
-
 </style>

@@ -90,7 +90,7 @@
       </ul>
     </div> -->
 
-     <!-- 水平一级菜单 -->
+    <!-- 水平一级菜单 -->
     <!-- <div
       class="main"
       style="margin-left: 200px; margin-right: 200px; display: flex;"
@@ -114,9 +114,9 @@
       </el-menu>
     </div> -->
 
-        <div class="main">
+    <div class="main">
       <ul class="nav">
-         <li
+        <li
           :class="isCheck == index ? 'active' : ''"
           @click="handleSelect(item, index)"
           v-for="(item, index) in MenuList"
@@ -134,31 +134,33 @@ import { getMenuList, loginOut, info } from "@/api/index.js";
 
 export default {
   data() {
-    let a = sessionStorage.getItem("Token");
     return {
       date: new Date(),
       isCheck: 0,
       MenuList: [],
-      Appid: "312502",
-      Token: a,
       Healmg: "",
       UserName: "",
       BackGroundTitle: "",
       Menu_ID: "",
       Org: "",
-      activeIndex:'1'
+      activeIndex: "1",
     };
   },
   created() {
-    this.getMenuList({
-      Appid: this.Appid,
-      Token: this.Token,
+    //顶部导航栏
+    getMenuList().then((res) => {
+      if (res.status != 200) return;
+      this.MenuList = res.data.MenuList;
+      this.BackGroundTitle = res.data.BackGroundTitle;
+    });
+    //右上角个人信息
+    info().then((res) => {
+      this.Org = res.data.Org;
+      this.UserName = res.data.UserName;
+      // this.Healmg = "data:image/png;base64" + res.data.Healmg;
+      this.Healmg = res.data.Healmg;
     });
 
-    this.info({
-      Appid: this.Appid,
-      Token: this.Token,
-    });
   },
   mounted() {},
   methods: {
@@ -173,28 +175,8 @@ export default {
     // 传递Menu_ID给侧边栏
     handleSelect(item, index) {
       this.isCheck = index;
-      this.$bus.$emit('sendMenuID',item.Menu_ID)
-    },
-
-
-    //顶部导航栏
-    getMenuList(data) {
-      getMenuList(data).then((res) => {
-        if (res.status != 200) return;
-        this.MenuList = res.data.MenuList;
-        this.BackGroundTitle = res.data.BackGroundTitle;
-      });
-    },
-
-    //右上角个人信息
-    info(data) {
-      info(data).then((res) => {
-        this.Org = res.data.Org;
-        this.UserName = res.data.UserName;
-        // this.Healmg = "data:image/png;base64" + res.data.Healmg;
-        this.Healmg = res.data.Healmg;
-      });
-    },
+      this.$bus.$emit("sendMenuID", item.Menu_ID);
+    }
   },
   components: {},
 };
@@ -205,7 +187,7 @@ export default {
   height: 48px;
   line-height: 48px;
   font-size: 16px;
-  border-bottom:0
+  border-bottom: 0;
 }
 
 //修改el-badge的位置
@@ -236,7 +218,7 @@ export default {
   visibility: hidden;
 }
 //去掉点击时导航栏下划线
-.el-menu--horizontal>.el-menu-item.is-active{
+.el-menu--horizontal > .el-menu-item.is-active {
   border-bottom: 0;
 }
 .active {

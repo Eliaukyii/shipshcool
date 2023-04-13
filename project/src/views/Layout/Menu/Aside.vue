@@ -30,26 +30,21 @@
           v-for="subItem in item.child"
           :key="subItem.Menu_ID"
         >
-          <el-menu-item
-            @click="clickMenu(subItem)"
-            :index="subItem.Menu_ID"
-            >{{ subItem.Menu_Name }}</el-menu-item
-          >
+          <el-menu-item @click="clickMenu(subItem)" :index="subItem.Menu_ID">{{
+            subItem.Menu_Name
+          }}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
   </div>
 </template>
 <script>
-import { GetButtons,getChildMenu} from "@/api/index.js";
+import { GetButtons, getChildMenu } from "@/api/index.js";
 
 export default {
   data() {
-    let a = sessionStorage.getItem("Token");
     return {
-      defaultActive:'',
-      Appid: "312502",
-      Token: a,
+      defaultActive: "",
       List: [],
       Menu_Name: "",
       Menu_Icon: "",
@@ -60,26 +55,22 @@ export default {
   },
   created() {
     this.GetButtons({
-      Appid: this.Appid,
-      Token: this.Token,
       MenuCode: "5ed20159-d1ad-4bbe-92f3-e574d9d6be88",
       HideList: "123",
     });
   },
   mounted() {
     this.$bus.$on("sendMenuID", (Menu_ID) => {
-     this.MenuID=Menu_ID
+      this.MenuID = Menu_ID;
       this.getChildMenu({
-      Appid: this.Appid,
-      Token: this.Token,
-      MenuID: this.MenuID,
-    })
-    })
+        MenuID: this.MenuID,
+      });
+    });
   },
   methods: {
-  toIndex(){
-    return this.$route.path.split('/')[2];
-  },
+    toIndex() {
+      return this.$route.path.split("/")[2];
+    },
 
     getChildMenu(data) {
       getChildMenu(data).then((res) => {
@@ -89,15 +80,11 @@ export default {
             this.List = res.data.List;
           }
         }
-      })
+      });
     },
 
     clickMenu(item) {
       console.log(item);
-//           this.$router.options.routes.map((item) => {
-//         console.log(item.children);
-// });
-
     },
     GetButtons(data) {
       GetButtons(data).then((res) => {

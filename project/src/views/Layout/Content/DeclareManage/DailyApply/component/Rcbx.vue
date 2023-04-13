@@ -84,11 +84,16 @@
         </button>
         <button class="btn" @click="deleteSelectRows">删除</button>
         <button class="btn">导出</button>
-         <!-- 弹框内容  -->
+        <!-- 弹框内容  -->
         <Dialog :visible.sync="visible" ref="child"></Dialog>
         <el-table
           ref="multipleTable"
-          :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+          :data="
+            tableData.slice(
+              (currentPage - 1) * pageSize,
+              currentPage * pageSize
+            )
+          "
           tooltip-effect="dark"
           style="width: 100%"
           max-height="580"
@@ -113,8 +118,15 @@
             align="center"
           >
             <template slot-scope="scope">
-              <el-button type="text" size="small"  @click="handleEdit">编辑</el-button>
-              <el-button type="text" size="small"  @click.native.prevent="deleteRow(scope.$index, tableData)">删除</el-button>
+              <el-button type="text" size="small" @click="handleEdit"
+                >编辑</el-button
+              >
+              <el-button
+                type="text"
+                size="small"
+                @click="handleDelete(scope.row)"
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -125,7 +137,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-sizes="[1,5,10,20]"
+        :page-sizes="[1, 5, 10, 20]"
         :page-size="pageSize"
         layout="->,total, prev, pager, next, sizes, jumper"
         :total="tableData.length"
@@ -138,7 +150,7 @@
 
 <script>
 import StepPage from "../StepPage.vue";
-import Dialog from '@/components/Dialog.vue';
+import Dialog from "@/components/Dialog.vue";
 export default {
   data() {
     return {
@@ -158,7 +170,7 @@ export default {
       pageSize: 10,
       tableData: [
         {
-          id:0,
+          id: 0,
           progress: "0%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -176,7 +188,7 @@ export default {
           manage: "编辑 删除",
         },
         {
-          id:1,
+          id: 1,
           progress: "70%",
           number: "14480049",
           date: "2022-09-27 21:11:09",
@@ -194,7 +206,7 @@ export default {
           manage: "编辑 删除",
         },
         {
-          id:2,
+          id: 2,
           progress: "70%",
           number: "144800411",
           date: "2022-09-27 21:11:09",
@@ -212,7 +224,7 @@ export default {
           manage: "编辑 删除",
         },
         {
-          id:3,
+          id: 3,
           progress: "100%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -230,7 +242,7 @@ export default {
           manage: "编辑 删除",
         },
         {
-          id:4,
+          id: 4,
           progress: "100%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -248,7 +260,7 @@ export default {
           manage: "编辑 删除",
         },
         {
-          id:5,
+          id: 5,
           progress: "70%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -266,7 +278,7 @@ export default {
           manage: "编辑 删除",
         },
         {
-          id:6,
+          id: 6,
           progress: "70%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -284,7 +296,7 @@ export default {
           manage: "编辑 删除",
         },
         {
-          id:7,
+          id: 7,
           progress: "70%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -302,7 +314,7 @@ export default {
           manage: "编辑 删除",
         },
         {
-          id:8,
+          id: 8,
           progress: "70%",
           number: "",
           date: "2022-09-27 21:11:09",
@@ -345,18 +357,50 @@ export default {
         "临时冻结",
       ],
       selectedRows: [], // 选中的行
-      filterText:''
+      filterText: "",
+      form:{
+        progress:'',  //进度
+        Date:'',  //申请日期
+        orderNum:'',    //单号
+        department:'',  //部门
+        amount:'',  //金额
+        desc:'',    //摘要
+        reimburser:'',  //报销人
+        applicant:'', //申报人
+        agent:'',   //经办人
+        status:'',  //审批状态
+        waiter:'' //待批人
+      }
     };
   },
-  mounted(){
-  },
+  mounted() {},
   methods: {
     newBtn() {
       this.homeShow = !this.homeShow;
       this.childShow = !this.childShow;
     },
-    deleteRow(index, rows) {
-    rows.splice(index, 1);
+    handleDelete() {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        // .then(() => {
+        //   delUser({ id: row.id }).then(() => {
+        //     this.$message({
+        //       type: "success",
+        //       message: "删除成功!",
+        //     });
+        //     // 重新获取列表的接口
+        //     this.getList();
+        //   });
+        // })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
     handleEdit() {
       this.$refs.child.handleEdit(); //直接访问子组件方法,用ref拿子组件方法
@@ -368,24 +412,24 @@ export default {
         this.currentIndex.splice(this.currentIndex.indexOf(index), 1);
       }
     },
-   //每页条数改变时触发 选择一页显示多少行
-    handleSizeChange(val){
+    //每页条数改变时触发 选择一页显示多少行
+    handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
-      this.currentPage=1;
-      this.pageSize=val;
+      this.currentPage = 1;
+      this.pageSize = val;
     },
-     //当前页改变时触发 跳转其他页
+    //当前页改变时触发 跳转其他页
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      this.currentPage=val;
+      this.currentPage = val;
     },
-    deleteSelectRows(){
+    deleteSelectRows() {
       const selection = this.$refs.multipleTable.selection; // 获取选中的行
-      const ids=selection.map(item=>item.id); // 获取选中行的id数组
-      this.tableData=this.tableData.filter(item=>!ids.includes(item.id)) //过滤出未选中行的数据
+      const ids = selection.map((item) => item.id); // 获取选中行的id数组
+      this.tableData = this.tableData.filter((item) => !ids.includes(item.id)); //过滤出未选中行的数据
     },
-    handleSelectionChange(selection){
-      this.selectedRows=selection
+    handleSelectionChange(selection) {
+      this.selectedRows = selection;
     },
   },
   components: {

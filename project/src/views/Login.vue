@@ -51,7 +51,12 @@
               </el-input>
             </el-form-item>
             <el-form-item prop="code">
-              <el-input v-model="form.code" placeholder="验证码" :maxlength="4" @keyup.enter.native="login('form')">
+              <el-input
+                v-model="form.code"
+                placeholder="验证码"
+                :maxlength="4"
+                @keyup.enter.native="login('form')"
+              >
                 <i slot="prefix">
                   <img
                     style="vertical-align: middle"
@@ -59,11 +64,6 @@
                     alt
                   />
                 </i>
-                <!-- 获取验证码 -->
-                <!-- <i slot="prefix" style="margin-left:200px;">
-                  <span>获取验证码</span>
-                </i> -->
-                
                 <i slot="prefix">
                   <img
                     @click="changeImg"
@@ -95,13 +95,9 @@
 
 <script>
 import { login, getVerifyCode } from "@/api/index.js";
-import md5 from "js-md5";
-
-
 export default {
   name: "Login",
-  components: {
-  },
+  components: {},
   data() {
     return {
       checked: true,
@@ -111,8 +107,6 @@ export default {
         account: "",
         password: "",
         code: "",
-        Appid: "312502",
-        Token: "",
       },
       rules: {
         account: [{ required: true, trigger: "blur", message: "请输入用户名" }],
@@ -122,62 +116,56 @@ export default {
     };
   },
   created() {
-    this.changeImg()
+    this.changeImg();
   },
   mounted() {},
-  methods: { 
+  methods: {
     login(form) {
       this.$refs[form].validate((valid) => {
         if (valid) {
           let data = this.form;
-          let dateformat = require("dateformat-util");
-          let nowDate = dateformat.format(new Date(), "MMddyyyy");
-          data.Token = md5(`AECBF03AC53C022E5E12${nowDate}312502`).toUpperCase();
-          
-          login(data).then((res) => {
-            if (res.status == 200) {
-              // console.log(res)
-              if(res.data.Code=== '03'){
-                 this.$message({
-                  message: res.data.Msg,
-                  type: 'error'
-                  })
-              }else if(res.data.Code=== '02'){
-                 this.$message({
-                  message: res.data.Msg,
-                  type: 'error'
-                  })
-              }else{
-                this.$message({
-                  message: '登录成功',
-                  type: 'success'
-                })
+          login(data)
+            .then((res) => {
+              if (res.status == 200) {
+                if (res.data.Code === "03") {
+                  this.$message({
+                    message: res.data.Msg,
+                    type: "error",
+                  });
+                } else if (res.data.Code === "02") {
+                  this.$message({
+                    message: res.data.Msg,
+                    type: "error",
+                  });
+                } else {
+                  this.$message({
+                    message: "登录成功",
+                    type: "success",
+                  });
 
-                //存储Token
-                window.sessionStorage.setItem('Token',data.Token);
-
-                //登录成功跳转到首页
-                this.$router.push('/home')
-              }     
-            } else {
-              console.log("res");
-              this.$message.error(res.data.Msg);
-            }
-          }).catch((err)=>{
-            console.log(err);
-          })
+                  //登录成功跳转到首页
+                  this.$router.push("/home");
+                }
+              } else {
+                console.log("res");
+                this.$message.error(res.data.Msg);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
-      })
+      });
     },
     // 获取验证码
-    changeImg(){
+    changeImg() {
       getVerifyCode().then((res) => {
         if (res.status == 200) {
           this.imageURL = "data:image/png;base64" + res.data.img;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

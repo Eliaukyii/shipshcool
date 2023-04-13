@@ -45,6 +45,16 @@ const routes = [{
             path: '/clDetail',
             component: () => import('@/views/Layout/Content/DeclareManage/TravelApply/component/Detail.vue'),
         },
+        {
+            name: '借支报销单详情',
+            path: '/jzDetail',
+            component: () => import('@/views/Layout/Content/DeclareManage/DebitApply/component/Detail.vue'),
+        },
+        {
+            name: '往来报销单详情',
+            path: '/wlDetail',
+            component: () => import('@/views/Layout/Content/DeclareManage/PaymentApply/component/Detail.vue'),
+        },
     
 
         //审批管理
@@ -70,12 +80,12 @@ const routes = [{
         },
 
         {
-            name: '日常报销审批',
+            name: '日常报销单审批',
             path: '/rcbxsp',
             component: () => import('@/views/Layout/Content/ApprovalManage/DailySP/dailySp.vue'),
         },
         {
-            name: '差旅报销审批',
+            name: '差旅报销单审批',
             path: '/clbxsp',
             component: () => import('@/views/Layout/Content/ApprovalManage/TravelSP/travelSp.vue'),
         },

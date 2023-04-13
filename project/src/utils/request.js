@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-// import md5 from "js-md5";
+import md5 from "js-md5";
 
 //创建axios实例
 const service = axios.create({
@@ -10,30 +10,26 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(config => {
-  // if (config.data){
-  //   const Token = window.sessionStorage.getItem('Token')
-  //   if(Token){
-  //     config.headers.Authorization = `Bearer ${Token}`
-  //   }
-  //   //添加其他参数
-  //   config.data={
-  //     Appid:'312502',
-  //     ...config.data
-  //   }
-  // }
-  // console.log(config);
+  let dateformat = require("dateformat-util");
+  let nowDate = dateformat.format(new Date(), "MMddyyyy");
 
-  // if (config.data) {
-  //   config.data = {
-  //     ...config.data,
-  //     // Token:'0E2665F6A9C5A90A5D226A2D00BB5E94',
-  //     Appid:'312502',
-  //   }
-  // }
+//全局添加入参
 
-  if(config.data){
-    config.data=qs.stringify(config.data);
-  }
+let Appid=localStorage.getItem('Appid');
+let Token=localStorage.getItem('Token');
+
+if(config.headers['Content-Type'] == 'multipart/form-data'){
+  config.data.set('Appid',Appid)
+  config.data.set('Token',Token)
+  return config
+}
+if(config.method === 'post'){
+  config.data=qs.stringify({
+    Appid:312502,
+    Token:md5(`AECBF03AC53C022E5E12${nowDate}312502`).toUpperCase(),
+    ...config.data
+  })
+}
   return config;
 }, error => {
   return Promise.reject(error);
