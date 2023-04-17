@@ -22,7 +22,15 @@
       </tr>
       <tr>
         <td>
-          <span class="title">经费部门：</span><span class="text">请选择</span>
+          <span class="title">经费部门：</span
+          ><el-select v-model="selectDept" placeholder="请选择">
+            <el-option
+              v-for="(item, index) in list"
+              :key="index"
+              :label="item.DeptName"
+              :value="item.DeptCode"
+            ></el-option>
+          </el-select>
         </td>
         <td>
           <span class="title">报销时间：</span>
@@ -52,9 +60,9 @@
         </td>
       </tr>
       <tr id="Tr">
-        <td><input type="text" placeholder="请输入" name="desc" /></td>
-        <td><input type="text" placeholder="请选择" name="project" /></td>
-        <td><input type="text" placeholder="请输入" name="amount" /></td>
+        <td><el-input placeholder="请输入" v-model="form.descript" /></td>
+        <td><el-input placeholder="请选择" v-model="form.project" /></td>
+        <td><el-input placeholder="请输入" v-model="form.account" /></td>
       </tr>
       <tr>
         <td colspan="2">
@@ -71,13 +79,31 @@
       </tr>
       <tr>
         <td>
-          <span class="title">申报人：</span><span class="write">蔡其松</span>
+          <span class="title">申报人：</span
+          ><el-input
+            type="text"
+            placeholder="请输入"
+            v-model="form.applicant"
+            style="width: 84%"
+          />
+        </td>
+        <td @click="handleClick">
+          <span class="title">经办人：</span
+          ><el-input
+            type="text"
+            placeholder="请输入"
+            v-model="form.agent"
+            style="width: 84%"
+          />
         </td>
         <td>
-          <span class="title">经办人：</span><span class="text">请输入</span>
-        </td>
-        <td>
-          <span class="title">报销人：</span><span class="text">请输入</span>
+          <span class="title">报销人：</span
+          ><el-input
+            type="text"
+            placeholder="请输入"
+            v-model="form.reimburser"
+            style="width: 84%"
+          />
         </td>
       </tr>
       <tr>
@@ -86,38 +112,46 @@
         <td style="border: 0"><span class="text">报账初审：</span></td>
       </tr>
     </table>
+    <user-dialog v-if="Visiable" ref="dialog"></user-dialog>
   </div>
 </template>
 
 <script>
+import { DeptList } from "@/api/index.js";
+import userDialog from '../component/userDialog.vue';
 export default {
   data() {
     return {
       applyTime: "",
+      selectDept: "",
+      list: [],
+      form: {
+        descript: "", //摘要
+        project: "", //经费用途
+        account: "", //报销金额
+        applicant: "", //申报人
+        agent: "", //经办人
+        reimburser: "", //报销人
+      },
+      Visiable:false
     };
+  },
+  created() {
+    DeptList().then((res) => {
+      this.list = res.data.list;
+    });
   },
   methods: {
     addRow() {
-      var Tr=document.getElementById("Tr")
-      var newRow = document.createElement('tr')
-      for(var i=0;i<Tr.cells.length;i++){
-        var newCell=document.createElement("td")
-        newCell.innerHTML=Tr.cells[i].innerHTML
-        newRow.appendChild(newCell)
+      var Tr = document.getElementById("Tr");
+      var newRow = document.createElement("tr");
+      for (var i = 0; i < Tr.cells.length; i++) {
+        var newCell = document.createElement("td");
+        newCell.innerHTML = Tr.cells[i].innerHTML;
+        newCell.style["border"] = "1px solid #ccc";
+        newRow.appendChild(newCell);
+        document.getElementById("myTable").insertBefore(newRow, Tr);
       }
-    document.getElementById("myTable").insertBefore(newRow,Tr)
-      // document.getElementById("myTable").appendChild(newRow)
-
-
-      // var table = document.getElementById("myTable");
-      // var row = table.insertRow(4); //在第四行后面增加新行
-      // var cell1 = row.insertCell(0);
-      // var cell2 = row.insertCell(1);
-      // var cell3 = row.insertCell(2);
-      // cell1.innerHTML = "<input type='text' placeholder='请输入'/>";
-      // cell2.innerHTML = "<input type='text' placeholder='请输入'/>";
-      // cell3.innerHTML = "<input type='text' placeholder='请输入'/>";
-
     },
     deleteRow() {
       var table = document.getElementById("myTable");
@@ -126,8 +160,20 @@ export default {
     desc() {
       this.$router.push("/zygl");
     },
+    handleClick(data){
+          this.Visiable=true;
+          this.$nextTick(()=>{
+          //这里的dialog与上面dialog-component组件里面的ref属性值是一致的
+          //init调用的是dialog-component组件里面的init方法
+          //data是传递给弹窗页面的值
+            this.$refs.dialog.init(data);
+          })
+        },
+    
   },
-  components: {},
+  components: {
+    userDialog
+  },
 };
 </script>
 
@@ -143,6 +189,11 @@ input::-webkit-input-placeholder {
   right: -340px !important;
   cursor: pointer;
 }
+
+/deep/ .el-icon-arrow-up:before {
+  content: "";
+}
+
 .headline {
   font-size: 28px;
   color: #333333;

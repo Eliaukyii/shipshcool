@@ -11,7 +11,7 @@ const routes = [{
         children: [
         {
             path: 'home',
-            name: '首页',
+            name: 'Home',
             component: ()=>import('../views/Home.vue'),
         },
         // 申报管理
@@ -98,37 +98,32 @@ const routes = [{
             component: () => import('@/views/Layout/Content/DeclareManage/DailyApply/StepPage.vue'), //步骤条
         },
         {
-            name: 'Fjmk',
-            path: '/fjmk',
-            component: () => import('@/views/Layout/Content/Fjmk.vue'), //附件模块
-        },
-        {
             name: 'Zygl',
             path: '/zygl',
             component: () => import('@/views/Layout/Content/DeclareManage/DailyApply/component/Zygl.vue') //摘要管理
         },
         {
-            name: 'Gwbg',
+            name: '岗位变更',
             path: '/201803100911003438',
             component: () => import('@/views/Layout/Content/Qxgl/gwbg.vue') //岗位变更
         },
         {
-            name: 'Bmgl2',
+            name: '部门管理',
             path: '/201602142242543567',
             component: () => import('@/views/Layout/Content/Qxgl/bmgl.vue') //部门管理
         },
         {
-            name: 'Yhgl',
+            name: '用户管理',
             path: '/201602142242462112',
             component: () => import('@/views/Layout/Content/Qxgl/yhgl.vue') //用户管理
         },
         {
-            name: 'Jslb',
+            name: '角色列表',
             path: '/201602142244437712',
             component: () => import('@/views/Layout/Content/Qxgl/jslb.vue') //角色列表
         },
         {
-            name: 'Jsqx',
+            name: '角色权限',
             path: '/201602142244583243',
             component: () => import('@/views/Layout/Content/Qxgl/jsqx.vue') //角色权限
         },

@@ -8,7 +8,7 @@
       text-color="#333"
     >
       <el-menu-item
-        @click="clickMenu(item)"
+        @click="clickMenu(item.Menu_ID)"
         v-for="item in noChildren"
         :key="item.Menu_ID"
         :index="item.Menu_ID"
@@ -30,7 +30,7 @@
           v-for="subItem in item.child"
           :key="subItem.Menu_ID"
         >
-          <el-menu-item @click="clickMenu(subItem)" :index="subItem.Menu_ID">{{
+          <el-menu-item @click="clickMenu(item.Menu_ID)" :index="subItem.Menu_ID">{{
             subItem.Menu_Name
           }}</el-menu-item>
         </el-menu-item-group>

@@ -178,7 +178,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push("/newbxsq");
+      this.$router.push("/CustomApprovlsheet_List");
     },
     close() {
       console.log("关闭");

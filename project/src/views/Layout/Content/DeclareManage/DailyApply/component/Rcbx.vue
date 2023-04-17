@@ -20,23 +20,22 @@
           <div class="choice" style="margin-top: 16px">
             <span>报销部门</span>
             <el-select
-              v-model="value"
+              v-model="selectDept"
               placeholder="请选择"
               style="width: 152px; margin-left: 8px"
             >
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
+                v-for="(item, index) in list"
+                :key="index"
+                :label="item.DeptName"
+                :value="item.DeptCode"
+              ></el-option>
             </el-select>
             <span style="margin-left: 56px">报销项目</span>
             <el-select
               v-model="value"
               placeholder="请选择"
-              style="width: 152px; margin-left: 8px"
+              style="width: 160px; margin-left: 8px"
             >
               <el-option
                 v-for="item in options"
@@ -151,9 +150,14 @@
 <script>
 import StepPage from "../StepPage.vue";
 import Dialog from "@/components/Dialog.vue";
+
+import { DeptList } from "@/api/index.js";
+
 export default {
   data() {
     return {
+      selectDept: "",
+      list: [],
       visible: true,
       currentIndex: [],
       homeShow: true,
@@ -358,20 +362,25 @@ export default {
       ],
       selectedRows: [], // 选中的行
       filterText: "",
-      form:{
-        progress:'',  //进度
-        Date:'',  //申请日期
-        orderNum:'',    //单号
-        department:'',  //部门
-        amount:'',  //金额
-        desc:'',    //摘要
-        reimburser:'',  //报销人
-        applicant:'', //申报人
-        agent:'',   //经办人
-        status:'',  //审批状态
-        waiter:'' //待批人
-      }
+      form: {
+        progress: "", //进度
+        Date: "", //申请日期
+        orderNum: "", //单号
+        department: "", //部门
+        amount: "", //金额
+        desc: "", //摘要
+        reimburser: "", //报销人
+        applicant: "", //申报人
+        agent: "", //经办人
+        status: "", //审批状态
+        waiter: "", //待批人
+      },
     };
+  },
+  created() {
+    DeptList().then((res) => {
+      this.list = res.data.list;
+    });
   },
   mounted() {},
   methods: {
