@@ -3,33 +3,49 @@
     <el-dialog title="选择用户" :visible.sync="detailVisible">
       <div>
         <div style="padding: 20px">
-          <el-button type="success">显示所有</el-button>
-          <el-button type="success">全选</el-button>
-          <el-button type="danger">取消全选</el-button>
+          <div style="float: left">
+            <el-button type="success">显示所有</el-button>
+            <el-button type="success">全选</el-button>
+            <el-button type="danger">取消全选</el-button>
+          </div>
+          <div style="float: right">
+            <el-button type="primary">保存</el-button>
+            <el-button type="warning">返回</el-button>
+          </div>
         </div>
-        <div style="padding-top: 20px">
-          <el-col :span="6" :xs="24">
+        <div style="padding-top: 40px; height: 500px">
+          <el-col :span="6" :xs="24" class="dialogDiv">
             <el-tree
-              :data="list"
+              :data="treeData"
               :props="defaultProps"
-              accordion
+              node-key="id"
               @node-click="handleNodeClick"
-            ></el-tree>
-          </el-col>
-          <el-col :span="18" :xs="24">
-            <el-table
-              :data="tableData"
-              style="width: 100%"
-              border="1"
-              v-for="(item,index) in tableData"
-              :key="index"
             >
-              <el-table-column type="selection" width="55"> </el-table-column>
-              <el-table-column prop="date" label="日期" width="180">
+            </el-tree>
+          </el-col>
+          <el-col :span="18" :xs="24" class="dialogDiv">
+            <el-table
+              :data="lists"
+              ref="multipleTable"
+              row-key="id"
+              style="width: 100%"
+              border
+            >
+              <el-table-column
+                type="selection"
+                width="55"
+                :reserve-selection="true"
+              >
               </el-table-column>
-              <el-table-column prop="name" label="姓名" width="180">
+              <el-table-column prop="EmployeeID" label="DeptName" width="120">
               </el-table-column>
-              <el-table-column prop="address" label="地址"> </el-table-column>
+              <el-table-column prop="EmployeeName" width="120">
+              </el-table-column>
+              <el-table-column prop="IDCard"></el-table-column>
+              <el-table-column
+                prop="EmployeeCode"
+                width="100"
+              ></el-table-column>
             </el-table>
           </el-col>
         </div>
@@ -39,35 +55,15 @@
 </template>
 
 <script>
-import { DeptList } from "@/api/index.js";
+import { DeptList, EmployeeList } from "@/api/index.js";
 
 export default {
   data() {
     return {
       detailVisible: false,
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄",
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄",
-        },
-      ],
-      list: [],
+      tableData: [],
+      treeData: [],
+      lists: [],
       defaultProps: {
         children: "children",
         label: "DeptName",
@@ -75,13 +71,13 @@ export default {
     };
   },
   created() {
-    this.getDeptList(); //获取树列表
+    this.getDeptList();
+    this.getEmployeeList();
   },
   methods: {
-    init(data) {
+    init() {
       this.detailVisible = true;
       //data是父组件弹窗传递过来的值，我们可以打印看看
-      console.log(data);
     },
     filterNode(value, data) {
       if (!value) return true;
@@ -89,18 +85,25 @@ export default {
     },
 
     handleNodeClick(data) {
-      console.log(data.DeptName);
+      this.currentSelect=data.DeptCode
+      console.log(this.currentSelect);
+      this.getEmployeeList();
+
     },
 
     //树列表
     getDeptList() {
-      let params = {
-        pageIndex: 1,
-        pageSize: 20,
-      };
-      DeptList(params).then((res) => {
-        this.list = res.data.list;
-        console.log(res.data);
+      DeptList().then((res) => {
+        this.treeData = res.data.list;
+      });
+    },
+  
+
+    //表格
+    getEmployeeList() {
+      EmployeeList().then((res) => {
+        this.tableData = res.data.list;
+        this.lists = this.tableData.filter((item) => item.DeptCode === "0001");
       });
     },
   },
@@ -122,9 +125,9 @@ export default {
 /deep/ .el-dialog__headerbtn .el-dialog__close {
   color: #fff;
 }
-/deep/.el-tree {
-  width: 100%;
-  overflow: scroll;
+.dialogDiv {
+  height: 500px;
+  overflow: auto;
 }
 </style>
 

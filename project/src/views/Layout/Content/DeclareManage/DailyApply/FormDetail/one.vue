@@ -62,7 +62,9 @@
       <tr id="Tr">
         <td><el-input placeholder="请输入" v-model="form.descript" /></td>
         <td><el-input placeholder="请选择" v-model="form.project" /></td>
-        <td><el-input placeholder="请输入" v-model="form.account" /></td>
+        <td>
+          <el-input placeholder="请输入" v-model="form.account" />
+        </td>
       </tr>
       <tr>
         <td colspan="2">
@@ -78,7 +80,7 @@
         <td colspan="3"><span class="title">其它记载：</span></td>
       </tr>
       <tr>
-        <td>
+        <td @click="handleClick">
           <span class="title">申报人：</span
           ><el-input
             type="text"
@@ -96,7 +98,7 @@
             style="width: 84%"
           />
         </td>
-        <td>
+        <td @click="handleClick">
           <span class="title">报销人：</span
           ><el-input
             type="text"
@@ -118,7 +120,7 @@
 
 <script>
 import { DeptList } from "@/api/index.js";
-import userDialog from '../component/userDialog.vue';
+import userDialog from "../component/userDialog.vue";
 export default {
   data() {
     return {
@@ -133,7 +135,7 @@ export default {
         agent: "", //经办人
         reimburser: "", //报销人
       },
-      Visiable:false
+      Visiable: false,
     };
   },
   created() {
@@ -160,19 +162,18 @@ export default {
     desc() {
       this.$router.push("/zygl");
     },
-    handleClick(data){
-          this.Visiable=true;
-          this.$nextTick(()=>{
-          //这里的dialog与上面dialog-component组件里面的ref属性值是一致的
-          //init调用的是dialog-component组件里面的init方法
-          //data是传递给弹窗页面的值
-            this.$refs.dialog.init(data);
-          })
-        },
-    
+    handleClick(data) {
+      this.Visiable = true;
+      this.$nextTick(() => {
+        //这里的dialog与上面dialog-component组件里面的ref属性值是一致的
+        //init调用的是dialog-component组件里面的init方法
+        //data是传递给弹窗页面的值
+        this.$refs.dialog.init(data);
+      });
+    },
   },
   components: {
-    userDialog
+    userDialog,
   },
 };
 </script>
