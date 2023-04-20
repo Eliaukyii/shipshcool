@@ -21,6 +21,7 @@ import Breadcrumb from "@/views/Layout/Menu/Breadcrumb.vue";
 export default {
   data() {
     return {
+  
     };
   },
   methods: {

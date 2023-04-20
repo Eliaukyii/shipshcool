@@ -19,13 +19,14 @@
               :data="treeData"
               :props="defaultProps"
               node-key="id"
+              ref="tree"
               @node-click="handleNodeClick"
             >
             </el-tree>
           </el-col>
           <el-col :span="18" :xs="24" class="dialogDiv">
             <el-table
-              :data="lists"
+              :data="tableData"
               ref="multipleTable"
               row-key="id"
               style="width: 100%"
@@ -37,7 +38,11 @@
                 :reserve-selection="true"
               >
               </el-table-column>
-              <el-table-column prop="EmployeeID" label="DeptName" width="120">
+              <el-table-column
+                prop="EmployeeID"
+                :label="SelectName"
+                width="120"
+              >
               </el-table-column>
               <el-table-column prop="EmployeeName" width="120">
               </el-table-column>
@@ -63,47 +68,57 @@ export default {
       detailVisible: false,
       tableData: [],
       treeData: [],
-      lists: [],
       defaultProps: {
         children: "children",
         label: "DeptName",
       },
+      TreeParams: {
+        pageIndex: 1,
+        pageSize: 62,
+      },
+      TableParams: {
+        pageIndex: 1,
+        pageSize: 1818,
+      },
+      SelectName: "",
     };
   },
   created() {
     this.getDeptList();
-    this.getEmployeeList();
   },
   methods: {
     init() {
       this.detailVisible = true;
-      //data是父组件弹窗传递过来的值，我们可以打印看看
-    },
-    filterNode(value, data) {
-      if (!value) return true;
-      return data.label.indexOf(value) !== -1;
     },
 
     handleNodeClick(data) {
-      this.currentSelect=data.DeptCode
-      console.log(this.currentSelect);
-      this.getEmployeeList();
-
+      this.SelectCode = data.DeptCode;
+      this.tableData = this.getEmployeeList();
+      this.SelectName = data.DeptName;
     },
 
     //树列表
     getDeptList() {
-      DeptList().then((res) => {
+      let TreeParams = {
+        pageIndex: this.TreeParams.pageIndex,
+        pageSize: this.TreeParams.pageSize,
+      };
+      DeptList(TreeParams).then((res) => {
         this.treeData = res.data.list;
       });
     },
-  
 
     //表格
     getEmployeeList() {
-      EmployeeList().then((res) => {
+      let TableParams = {
+        pageIndex: this.TableParams.pageIndex,
+        pageSize: this.TableParams.pageSize,
+      };
+      EmployeeList(TableParams).then((res) => {
         this.tableData = res.data.list;
-        this.lists = this.tableData.filter((item) => item.DeptCode === "0001");
+        this.tableData = this.tableData.filter(
+          (item) => item.DeptCode === this.SelectCode
+        );
       });
     },
   },
@@ -130,4 +145,3 @@ export default {
   overflow: auto;
 }
 </style>
-

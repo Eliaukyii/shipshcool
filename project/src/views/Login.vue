@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { login, getVerifyCode } from "@/api/index.js";
+import { login, getVerifyCode } from "@/api/login.js";
 export default {
   name: "Login",
   components: {},

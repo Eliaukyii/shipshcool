@@ -130,7 +130,8 @@
 </template>
 
 <script>
-import { getMenuList, loginOut, info } from "@/api/index.js";
+import { getMenuList, info } from "@/api/index.js";
+import { loginOut } from "@/api/login.js";
 
 export default {
   data() {
