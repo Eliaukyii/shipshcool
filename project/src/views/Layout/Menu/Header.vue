@@ -145,6 +145,7 @@ export default {
       Menu_ID: "",
       Org: "",
       activeIndex: "1",
+      selectMenu:''
     };
   },
   created() {
@@ -153,6 +154,10 @@ export default {
       if (res.status != 200) return;
       this.MenuList = res.data.MenuList;
       this.BackGroundTitle = res.data.BackGroundTitle;
+      this.SelectMenu = this.MenuList[0].Menu_ID
+
+      this.$bus.$emit("selectMenuID", this.SelectMenu);
+
     });
     //右上角个人信息
     info().then((res) => {

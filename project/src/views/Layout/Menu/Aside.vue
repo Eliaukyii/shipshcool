@@ -1,7 +1,6 @@
 <template>
   <div class="sidebar">
     <el-menu
-      :default-active="toIndex()"
       router
       class="el-menu-vertical-demo"
       background-color="#fff"
@@ -57,26 +56,36 @@ export default {
     this.GetButtons({
       MenuCode: "5ed20159-d1ad-4bbe-92f3-e574d9d6be88",
       HideList: "123",
-    });
+    }); 
+
+
+  //默认选中侧边栏列表第一个
+    this.$bus.$on("selectMenuID", (SelectMenu)=>{
+       this.getChildMenu({
+        MenuID: SelectMenu,
+      });
+    })
+  
   },
   mounted() {
-    this.$bus.$on("sendMenuID", (Menu_ID) => {
+
+    //点击顶部更新侧边栏
+     this.$bus.$on("sendMenuID", (Menu_ID) => {
       this.MenuID = Menu_ID;
       this.getChildMenu({
         MenuID: this.MenuID,
       });
     });
+    
   },
   methods: {
-    toIndex() {
-      return this.$route.path.split("/")[2];
-    },
 
+
+    //渲染侧边栏内容
     getChildMenu(data) {
       getChildMenu(data).then((res) => {
         if (res.status == "200") {
           if (res.data.Code == "00") {
-            console.log(res);
             this.List = res.data.List;
           }
         }
