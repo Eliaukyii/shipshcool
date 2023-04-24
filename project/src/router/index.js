@@ -101,6 +101,9 @@ const routes = [{
                 path: '/zygl',
                 component: () => import('@/views/Layout/Content/DeclareManage/DailyApply/component/Zygl.vue') //摘要管理
             },
+
+
+    //系统管理
             {
                 name: '岗位变更',
                 path: '/201803100911003438',
@@ -150,7 +153,14 @@ const routes = [{
                 name: 'Bxzh',
                 path: '/bxzh',
                 component: () => import('@/views/Layout/Content/Ryda/bxzh.vue') //报销账户
-            }
+            },
+            {
+                name: '菜单栏目',
+                path: '/201602142238155549',
+                component: () => import('@/views/Layout/Content/SystemSet/cdlm.vue') //报销账户
+            },
+
+            
         ]
     },
     {

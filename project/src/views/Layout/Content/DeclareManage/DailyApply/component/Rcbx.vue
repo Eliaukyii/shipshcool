@@ -151,7 +151,7 @@
 import StepPage from "../StepPage.vue";
 import Dialog from "@/components/Dialog.vue";
 
-import { DeptList } from "@/api/index.js";
+import { DeptList } from "@/api/systemManage.js";
 
 export default {
   data() {

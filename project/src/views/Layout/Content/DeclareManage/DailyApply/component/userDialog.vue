@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { DeptList, EmployeeList } from "@/api/index.js";
+import { DeptList, EmployeeList } from "@/api/systemManage.js";
 
 export default {
   data() {
